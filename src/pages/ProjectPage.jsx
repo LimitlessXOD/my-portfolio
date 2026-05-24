@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import BackLink from '../components/BackLink';
+import useScrollToTopOnEnter from '../hooks/useScrollToTopOnEnter';
 
 const projectDetails = {
   'chess-platform': {
@@ -131,7 +132,7 @@ export default function ProjectPage() {
   const { slug } = useParams();
   const p = projectDetails[slug];
 
-  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  useScrollToTopOnEnter([slug]);
 
   if (!p) {
     return (
@@ -154,12 +155,14 @@ export default function ProjectPage() {
         {/* Hero */}
         <section style={{ background: 'var(--bg2)', paddingTop: 120, paddingBottom: 60, borderBottom: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 32px' }}>
-            <Link to="/" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}
+            <BackLink
+              to="/projects"
+              style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
-              ← Back to Portfolio
-            </Link>
+              ← Back to Projects
+            </BackLink>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
               <span style={{ fontFamily: 'Space Mono', fontSize: 12, color: p.color, opacity: 0.6 }}>{p.num}</span>
               <span style={{ fontFamily: 'Space Mono', fontSize: 10, padding: '3px 10px', borderRadius: 99, border: `1px solid ${p.color}50`, color: p.color, letterSpacing: 1 }}>{p.status}</span>
@@ -245,12 +248,14 @@ export default function ProjectPage() {
 
           {/* Next Project */}
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-            <Link to="/" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
+            <BackLink
+              to="/projects"
+              style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
               ← All Projects
-            </Link>
+            </BackLink>
             <Link
               to={`/projects/${p.nextSlug}`}
               style={{ fontFamily: 'Space Mono', fontSize: 12, color: p.color, textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}

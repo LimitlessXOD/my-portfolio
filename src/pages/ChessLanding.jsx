@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import BackLink from '../components/BackLink';
+import useScrollToTopOnEnter from '../hooks/useScrollToTopOnEnter';
 
 const FEATURES = [
   { icon: '⚡', title: 'Real-Time Multiplayer', desc: 'WebSocket-powered gameplay with zero perceptible lag. Moves sync instantly across the globe.' },
@@ -30,8 +32,9 @@ export default function ChessLanding() {
   const [moveCount, setMoveCount] = useState(0);
   const color = '#c9a84c';
 
+  useScrollToTopOnEnter([]);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
     const t = setInterval(() => setMoveCount(n => n + 1), 1800);
     return () => clearInterval(t);
   }, []);
@@ -231,10 +234,14 @@ export default function ChessLanding() {
 
         {/* ── NAV BETWEEN PROJECTS ── */}
         <div style={{ background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: 1000, margin: '0 auto', flexWrap: 'wrap', gap: 16 }}>
-          <Link to="/" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
+          <BackLink
+            to="/projects"
+            style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
             onMouseEnter={e => e.currentTarget.style.color = color}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-          >← All Projects</Link>
+          >
+            ← All Projects
+          </BackLink>
           <Link to="/products/mugen" style={{ fontFamily: 'Space Mono', fontSize: 12, color: '#6366f1', textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
             <span style={{ color: 'var(--muted)', fontSize: 10, letterSpacing: 2 }}>NEXT PROJECT</span>
             <span>MUGEN Desktop App →</span>

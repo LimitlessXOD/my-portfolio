@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import BackLink from '../components/BackLink';
+import useScrollToTopOnEnter from '../hooks/useScrollToTopOnEnter';
 
 const color = '#6366f1';
 
@@ -39,8 +41,9 @@ export default function MugenLanding() {
     'Play anything in your library instantly. Speed controls, progress memory, and keyboard shortcuts for power users.',
   ];
 
+  useScrollToTopOnEnter([]);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
     const t = setInterval(() => setActiveTab(n => (n + 1) % tabs.length), 3000);
     return () => clearInterval(t);
   }, [tabs.length]);
@@ -227,10 +230,13 @@ export default function MugenLanding() {
             onMouseEnter={e => e.currentTarget.style.color = color}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
           >← Chess Platform</Link>
-          <Link to="/" style={{ fontFamily: 'Space Mono', fontSize: 12, color: '#10b981', textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-            <span style={{ color: 'var(--muted)', fontSize: 10, letterSpacing: 2 }}>NEXT</span>
-            <span>Back to Portfolio →</span>
-          </Link>
+          <BackLink
+            to="/projects"
+            style={{ fontFamily: 'Space Mono', fontSize: 12, color: '#10b981', textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}
+          >
+            <span style={{ color: 'var(--muted)', fontSize: 10, letterSpacing: 2 }}>ALL PROJECTS</span>
+            <span>← Projects Hub</span>
+          </BackLink>
         </div>
       </main>
       <Footer />

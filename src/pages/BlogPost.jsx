@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import BackLink from '../components/BackLink';
+import useScrollToTopOnEnter from '../hooks/useScrollToTopOnEnter';
 
 const posts = {
   'building-chess-platform': {
@@ -186,7 +188,7 @@ export default function BlogPost() {
   const { slug } = useParams();
   const post = posts[slug];
 
-  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  useScrollToTopOnEnter([slug]);
 
   if (!post) {
     return (
@@ -194,7 +196,7 @@ export default function BlogPost() {
         <Nav />
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
           <h2 style={{ fontFamily: 'Space Mono', color: 'var(--cyan)' }}>// 404 — Post not found</h2>
-          <Link to="/#blog" className="btn-primary" style={{ textDecoration: 'none' }}>← Back to Blog</Link>
+          <BackLink to="/#blog" className="btn-primary" style={{ textDecoration: 'none' }}>← Back to Blog</BackLink>
         </div>
         <Footer />
       </>
@@ -212,12 +214,14 @@ export default function BlogPost() {
         {/* Hero */}
         <section style={{ background: 'var(--bg2)', paddingTop: 120, paddingBottom: 64, borderBottom: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 740, margin: '0 auto', padding: '0 32px' }}>
-            <Link to="/#blog" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}
+            <BackLink
+              to="/#blog"
+              style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
               ← Blog
-            </Link>
+            </BackLink>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
               <span style={{ fontFamily: 'Space Mono', fontSize: 10, padding: '3px 12px', borderRadius: 99, border: `1px solid ${post.color}50`, color: post.color }}>{post.tag}</span>
@@ -276,12 +280,14 @@ export default function BlogPost() {
 
           {/* Next post */}
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 48, paddingBottom: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-            <Link to="/#blog" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
+            <BackLink
+              to="/#blog"
+              style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--muted)', textDecoration: 'none' }}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
               ← All Posts
-            </Link>
+            </BackLink>
             <Link
               to={`/blog/${post.nextSlug}`}
               style={{ fontFamily: 'Space Mono', fontSize: 12, color: post.color, textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}
