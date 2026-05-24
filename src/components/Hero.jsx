@@ -4,7 +4,7 @@ import useTyping from '../hooks/useTyping';
 export default function Hero() {
   const role = useTyping(['Full-Stack Developer','AI App Builder','Chess Platform Creator','Freelance Dev','CS Student @ NUST']);
   return (
-    <section id="top" className="grid-bg" style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',paddingTop:80}}>
+    <section id="top" className="grid-bg" style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',paddingTop:80,background:'var(--bg)'}}>
       <div className="orb1" style={{position:'absolute',top:'15%',right:'10%',width:400,height:400,borderRadius:'50%',background:'radial-gradient(circle,rgba(0,229,204,0.12) 0%,transparent 70%)',pointerEvents:'none'}} />
       <div className="orb2" style={{position:'absolute',bottom:'10%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%)',pointerEvents:'none'}} />
       <div style={{maxWidth:900,margin:'0 auto',padding:'0 32px',width:'100%'}}>

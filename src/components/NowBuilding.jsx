@@ -3,7 +3,7 @@ import { nowBuildingItems } from '../data/portfolioData';
 
 export default function NowBuilding() {
   return (
-    <section id="now" style={{maxWidth:900,margin:'0 auto',padding:'100px 32px'}}>
+    <section id="now" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal">05. Now</p>
       <h2 className="reveal" style={{fontSize:'clamp(28px,4vw,44px)',fontWeight:700,marginBottom:8}}>Currently Building</h2>
       <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:48}}>What I'm actively working on — updated regularly.</p>
@@ -18,6 +18,7 @@ export default function NowBuilding() {
           </div>
         ))}
       </div>
+    </div>
     </section>
   );
 }

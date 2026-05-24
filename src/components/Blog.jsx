@@ -3,7 +3,7 @@ import { blogPostsList } from '../data/portfolioData';
 
 export default function Blog() {
   return (
-    <section id="blog" style={{maxWidth:900,margin:'0 auto',padding:'100px 32px'}}>
+    <section id="blog" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal">07. Blog</p>
       <h2 className="reveal" style={{fontSize:'clamp(28px,4vw,44px)',fontWeight:700,marginBottom:8}}>Things I've Learned</h2>
       <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:48}}>Writing about building, shipping and growing as a dev.</p>
@@ -29,6 +29,7 @@ export default function Blog() {
       <p className="reveal" style={{color:'var(--muted)',fontFamily:'Space Mono',fontSize:11,textAlign:'center',marginTop:32}}>
         // Full articles coming soon — follow on LinkedIn for updates
       </p>
+    </div>
     </section>
   );
 }

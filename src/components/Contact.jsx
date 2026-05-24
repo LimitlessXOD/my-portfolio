@@ -23,7 +23,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" style={{maxWidth:900,margin:'0 auto',padding:'100px 32px'}}>
+    <section id="contact" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal" style={{textAlign:'center'}}>09. Contact</p>
       <h2 className="reveal" style={{fontSize:'clamp(32px,5vw,56px)',fontWeight:900,lineHeight:1.1,marginBottom:16,textAlign:'center'}}>
         Let's Build Something<br /><span className="grad-text">Together</span>
@@ -90,6 +90,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+    </div>
     </section>
   );
 }

@@ -10,7 +10,7 @@ const slugMap = {
 
 export default function Projects() {
   return (
-    <section id="projects" style={{maxWidth:960,margin:'0 auto',padding:'100px 32px'}}>
+    <section id="projects" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:960,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal">03. Projects</p>
       <h2 className="reveal" style={{fontSize:'clamp(28px,4vw,44px)',fontWeight:700,marginBottom:8}}>Things I've Built</h2>
       <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:48}}>Real products, real deployments, real code</p>
@@ -67,6 +67,7 @@ export default function Projects() {
           </div>
         ))}
       </div>
+    </div>
     </section>
   );
 }

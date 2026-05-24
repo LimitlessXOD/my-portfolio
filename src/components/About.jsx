@@ -3,7 +3,8 @@ import { timelineItems } from '../data/portfolioData';
 
 export default function About() {
   return (
-    <section id="about" style={{maxWidth:900,margin:'0 auto',padding:'100px 32px'}}>
+    <section id="about" style={{background:'var(--bg)',padding:'100px 0'}}>
+      <div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal">01. About</p>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:64,alignItems:'center'}}>
         <div>
