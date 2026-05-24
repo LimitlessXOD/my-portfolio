@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import Logo from '../components/Logo';
 
 export default function NotFound() {
   return (
@@ -19,6 +20,7 @@ export default function NotFound() {
           textAlign: 'center',
         }}
       >
+        <Logo variant="compact" style={{ marginBottom: 8, opacity: 0.95 }} />
         <p className="mono" style={{ fontSize: 12, color: 'var(--cyan)', letterSpacing: 3 }}>
           // 404
         </p>

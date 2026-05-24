@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useTyping from '../hooks/useTyping';
 import CountUpStat from './CountUpStat';
+import Logo from './Logo';
 
 /* Floating particle canvas */
 function ParticleCanvas() {
@@ -144,27 +145,18 @@ export default function Hero() {
           display: 'flex', alignItems: 'center', gap: 16,
           marginBottom: 36, flexWrap: 'wrap',
         }}>
-          {/* Logo badge */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            background: 'rgba(0,229,204,0.06)',
-            border: '1px solid rgba(0,229,204,0.2)',
-            borderRadius: 40, padding: '6px 16px 6px 8px',
-          }}>
-            <img
-              src="/mugensoft-logo.png"
-              alt="MugenSoft"
-              style={{ height: 28, width: 28, objectFit: 'contain', borderRadius: '50%' }}
-              onError={e => { e.target.style.display = 'none'; }}
-            />
-            <span style={{
-              fontFamily: 'Space Mono, monospace', fontSize: 11,
-              color: 'var(--cyan)', letterSpacing: 2,
-            }}>MUGENSOFT</span>
-            <span style={{
-              fontFamily: 'Space Mono, monospace', fontSize: 9,
-              color: 'var(--muted)', letterSpacing: 1,
-            }}>· DEVELOPER STUDIO</span>
+          <div
+            className="hero-logo-badge"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(0,229,204,0.04)',
+              border: '1px solid rgba(0,229,204,0.18)',
+              borderRadius: 12,
+              padding: '10px 16px',
+            }}
+          >
+            <Logo variant="hero" />
           </div>
 
           {/* Status dot */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Logo from './Logo';
 
 export default function Loader({ onDone }) {
   const [pct, setPct] = useState(0);
@@ -38,19 +39,8 @@ export default function Loader({ onDone }) {
         pointerEvents: done ? 'none' : 'all',
       }}
     >
-      <img
-        src="/mugensoft-logo.png"
-        alt="MugenSoft"
-        style={{
-          width: 80,
-          height: 80,
-          objectFit: 'contain',
-          marginBottom: 24,
-          animation: 'float 2s ease-in-out infinite',
-        }}
-      />
-      <div style={{ fontFamily: 'Space Mono', fontSize: 13, color: 'var(--cyan)', marginBottom: 20, letterSpacing: 2 }}>
-        MUGENSOFT
+      <div className="logo-loader-glow" style={{ marginBottom: 28, animation: 'float 2s ease-in-out infinite' }}>
+        <Logo variant="loader" />
       </div>
       <div style={{ width: 200, height: 2, background: 'var(--border)', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
         <div

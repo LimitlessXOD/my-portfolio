@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/portfolioData';
+import Logo from './Logo';
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,16 +47,8 @@ export default function Nav() {
         transition: 'all 0.3s',
       }}
     >
-      <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img
-          src="/mugensoft-logo.png"
-          alt="MugenSoft"
-          style={{ height: 36, width: 'auto', objectFit: 'contain' }}
-          onError={e => { e.target.style.display = 'none'; }}
-        />
-        <span style={{ fontFamily: 'Space Mono', color: 'var(--cyan)', fontWeight: 700, fontSize: 15, letterSpacing: 1 }}>
-          MugenSoft
-        </span>
+      <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }} aria-label="MugenSoft home">
+        <Logo variant="nav" />
       </Link>
 
       <div style={{ display: 'flex', gap: 32 }} className="hidden-mobile">
