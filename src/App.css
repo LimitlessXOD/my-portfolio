@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* Tailwind is imported once in index.css — do not re-import here */
 
 *, *::before, *::after { box-sizing: border-box; }
 

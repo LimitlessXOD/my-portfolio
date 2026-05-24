@@ -9,23 +9,27 @@ export default function useReveal(ready = true, routeKey = '', isPop = false) {
   useEffect(() => {
     if (!ready) return;
 
-    const all = document.querySelectorAll('.reveal');
-
     if (isPop) {
-      // Back navigation: reveal everything instantly — no animation reset needed.
-      // The PageTransition wrapper already handles the visual "entering" feel.
-      all.forEach(el => {
-        el.style.transition = 'none';
-        el.classList.add('visible');
-      });
-      // Re-enable transitions after paint so future interactions still animate
-      requestAnimationFrame(() => {
-        all.forEach(el => { el.style.transition = ''; });
-      });
-      return;
+      // Back/forward navigation: wait for the 0.38s PageTransition slide animation
+      // to finish AND for scroll restoration (double-rAF) to settle before revealing.
+      // Querying the DOM inside the timeout ensures we hit fully-painted, correctly
+      // positioned elements — not mid-animation, pre-scroll-restore ones.
+      const timer = setTimeout(() => {
+        const all = document.querySelectorAll('.reveal');
+        all.forEach(el => {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+        });
+        requestAnimationFrame(() => {
+          all.forEach(el => { el.style.transition = ''; });
+        });
+      }, 400); // 400ms > 380ms animation duration — gives layout time to fully settle
+      return () => clearTimeout(timer);
     }
 
     // Forward navigation: reset → observe → reveal on scroll
+    const all = document.querySelectorAll('.reveal');
+
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => {
         if (e.isIntersecting) {
