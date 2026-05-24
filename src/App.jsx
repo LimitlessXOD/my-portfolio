@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './components/ThemeProvider';
 import Loader from './components/Loader';
 import Home from './pages/Home';
@@ -10,7 +10,10 @@ import useReveal from './hooks/useReveal';
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
-  useReveal(!loading);
+  const location = useLocation();
+
+  // Trigger reveal after initial load AND on every route change
+  useReveal(!loading, location.pathname);
 
   return (
     <>
