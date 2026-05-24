@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from './ThemeProvider';
 import { navLinks } from '../data/portfolioData';
 
@@ -6,12 +7,25 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { dark, toggle } = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  const handleNavLink = (link) => {
+    setMenuOpen(false);
+    const hash = `#${link.toLowerCase()}`;
+    if (isHome) {
+      document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/' + hash);
+    }
+  };
 
   return (
     <nav
@@ -31,28 +45,32 @@ export default function Nav() {
         transition: 'all 0.3s',
       }}
     >
-      <a href="#top" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+      <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
         <img
           src="/mugensoft-logo.png"
           alt="MugenSoft"
           style={{ height: 36, width: 'auto', objectFit: 'contain' }}
-          onError={e => {
-            e.target.style.display = 'none';
-          }}
+          onError={e => { e.target.style.display = 'none'; }}
         />
         <span style={{ fontFamily: 'Space Mono', color: 'var(--cyan)', fontWeight: 700, fontSize: 15, letterSpacing: 1 }}>
           MugenSoft
         </span>
-      </a>
+      </Link>
+
       <div style={{ display: 'flex', gap: 32 }} className="hidden-mobile">
         {navLinks.map(l => (
-          <a key={l} href={`#${l.toLowerCase()}`} className="nav-link" style={{ textDecoration: 'none' }}>
+          <button
+            key={l}
+            onClick={() => handleNavLink(l)}
+            className="nav-link"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'none', padding: 0 }}
+          >
             {l}
-          </a>
+          </button>
         ))}
       </div>
+
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Theme toggle */}
         <button
           onClick={toggle}
           aria-label="Toggle theme"
@@ -68,14 +86,8 @@ export default function Nav() {
             display: 'flex',
             alignItems: 'center',
           }}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'var(--cyan)';
-            e.currentTarget.style.color = 'var(--cyan)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'var(--border)';
-            e.currentTarget.style.color = 'var(--muted)';
-          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--cyan)'; e.currentTarget.style.color = 'var(--cyan)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)'; }}
         >
           {dark ? '☀️' : '🌙'}
         </button>
@@ -100,6 +112,8 @@ export default function Nav() {
           {menuOpen ? '✕' : '☰'}
         </button>
       </div>
+
+      {/* Mobile menu — uses CSS variables throughout, fully theme-aware */}
       {menuOpen && (
         <div
           style={{
@@ -107,7 +121,7 @@ export default function Nav() {
             top: '100%',
             left: 0,
             right: 0,
-            background: 'rgba(8,12,18,0.98)',
+            background: 'var(--bg2)',
             backdropFilter: 'blur(16px)',
             borderBottom: '1px solid var(--border)',
             padding: '24px 32px',
@@ -117,15 +131,14 @@ export default function Nav() {
           }}
         >
           {navLinks.map(l => (
-            <a
+            <button
               key={l}
-              href={`#${l.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => handleNavLink(l)}
               className="nav-link"
-              style={{ textDecoration: 'none', fontSize: 16 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: 16, padding: 0 }}
             >
               {l}
-            </a>
+            </button>
           ))}
           <a
             href="https://wa.me/264812590824"
