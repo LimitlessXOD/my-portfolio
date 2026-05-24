@@ -4,6 +4,8 @@ import { ThemeProvider } from './components/ThemeProvider';
 import Loader from './components/Loader';
 import Home from './pages/Home';
 import ProjectPage from './pages/ProjectPage';
+import ChessLanding from './pages/ChessLanding';
+import MugenLanding from './pages/MugenLanding';
 import useReveal from './hooks/useReveal';
 
 function AppContent() {
@@ -16,6 +18,8 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:slug" element={<ProjectPage />} />
+        <Route path="/products/chess" element={<ChessLanding />} />
+        <Route path="/products/mugen" element={<MugenLanding />} />
       </Routes>
     </>
   );

@@ -8,6 +8,11 @@ const slugMap = {
   '03': 'mugensoft-portfolio',
 };
 
+const productMap = {
+  '01': '/products/chess',
+  '02': '/products/mugen',
+};
+
 export default function Projects() {
   return (
     <section id="projects" style={{background:'var(--bg)',padding:'100px 0'}}>
@@ -50,6 +55,16 @@ export default function Projects() {
                   >
                     Case Study →
                   </Link>
+                  {productMap[p.num] && (
+                    <Link
+                      to={productMap[p.num]}
+                      style={{fontFamily:'Space Mono',fontSize:11,padding:'7px 18px',borderRadius:6,background:'transparent',border:`1px solid ${p.color}60`,color:p.color,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:6,transition:'all 0.2s'}}
+                      onMouseEnter={e => { e.currentTarget.style.background = `${p.color}15`; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                    >
+                      ↗ Product Page
+                    </Link>
+                  )}
                 </div>
               </div>
               <div style={{borderTop:'1px solid var(--border)',overflow:'hidden',position:'relative'}}>
