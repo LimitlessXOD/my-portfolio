@@ -8,7 +8,7 @@ import useReveal from './hooks/useReveal';
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
-  useReveal();
+  useReveal(!loading);
 
   return (
     <>
