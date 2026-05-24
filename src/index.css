@@ -3,6 +3,9 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 /* ── Dark theme (default) ── */
+:root,
+html[data-theme="dark"],
+body[data-theme="dark"],
 [data-theme="dark"] {
   --cyan: #00e5cc;
   --cyan-dim: #00b89f;
@@ -19,6 +22,8 @@
 }
 
 /* ── Light theme ── */
+html[data-theme="light"],
+body[data-theme="light"],
 [data-theme="light"] {
   --cyan: #00897b;
   --cyan-dim: #00796b;
@@ -35,7 +40,12 @@
 }
 
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+body { font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
 .mono { font-family: 'Space Mono', monospace; }
 
@@ -222,12 +232,35 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 }
 
 /* ── Page transitions ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.99);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
 }
+
+@keyframes slideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.99);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Keep page-enter for legacy use */
 .page-enter {
-  animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: slideFromRight 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* ── Input fields (deduplicated) ── */

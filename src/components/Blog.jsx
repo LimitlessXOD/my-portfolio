@@ -2,12 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { blogPostsList } from '../data/portfolioData';
 
-const slugMap = {
-  0: 'building-chess-platform',
-  1: 'building-mugen-desktop-app',
-  2: 'freelancing-as-cs-student',
-};
-
 export default function Blog() {
   return (
     <section id="blog" style={{ background: 'var(--bg)', padding: '100px 0' }}>
@@ -19,18 +13,13 @@ export default function Blog() {
           {blogPostsList.map((p, i) => (
             <Link
               key={i}
-              to={`/blog/${slugMap[i]}`}
+              to={`/blog/${p.slug}`}
               className={`card reveal delay-${i + 1}`}
               style={{
-                padding: '28px 32px',
-                display: 'flex',
-                gap: 24,
-                alignItems: 'flex-start',
-                cursor: 'pointer',
-                position: 'relative',
-                overflow: 'hidden',
-                textDecoration: 'none',
-                color: 'inherit',
+                padding: '28px 32px', display: 'flex', gap: 24,
+                alignItems: 'flex-start', cursor: 'pointer',
+                position: 'relative', overflow: 'hidden',
+                textDecoration: 'none', color: 'inherit',
               }}
             >
               <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 3, background: p.color, borderRadius: '16px 0 0 16px' }} />
@@ -42,13 +31,10 @@ export default function Blog() {
                 <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 8, lineHeight: 1.3 }}>{p.title}</h3>
                 <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>{p.desc}</p>
               </div>
-              <div style={{ color: 'var(--muted)', fontSize: 20, flexShrink: 0, marginTop: 4, transition: 'color 0.2s, transform 0.2s' }}>→</div>
+              <div style={{ color: p.color, fontSize: 20, flexShrink: 0, marginTop: 4 }}>→</div>
             </Link>
           ))}
         </div>
-        <p className="reveal" style={{ color: 'var(--muted)', fontFamily: 'Space Mono', fontSize: 11, textAlign: 'center', marginTop: 32 }}>
-          // More posts coming — follow on <a href="https://www.linkedin.com/in/erastus-shalimba" target="_blank" rel="noreferrer" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>LinkedIn</a> for updates
-        </p>
       </div>
     </section>
   );

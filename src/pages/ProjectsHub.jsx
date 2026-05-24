@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -66,6 +66,10 @@ export default function ProjectsHub() {
       return matchCat && matchSearch;
     });
   }, [active, search]);
+
+  useEffect(() => {
+    document.title = 'Projects — MugenSoft';
+  }, []);
 
   return (
     <>
