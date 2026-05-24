@@ -14,22 +14,33 @@ export default function useReveal(ready = true, routeKey = '') {
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
 
-    const timer = setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => {
+    // Temporarily suppress transition during reset to avoid flash
+    const allReveal = document.querySelectorAll('.reveal');
+    allReveal.forEach(el => {
+      el.style.transition = 'none';
+      el.classList.remove('visible');
+    });
+
+    // Force a reflow so the removal takes effect without animating
+    void document.body.offsetHeight;
+
+    requestAnimationFrame(() => {
+      // Re-enable transitions
+      allReveal.forEach(el => {
+        el.style.transition = '';
+      });
+
+      // Now check each element
+      allReveal.forEach(el => {
         const rect = el.getBoundingClientRect();
-        // Instantly show anything already in or above the viewport
         if (rect.top < window.innerHeight) {
           el.classList.add('visible');
         } else {
           obs.observe(el);
         }
       });
-    }, 50);
+    });
 
-    return () => {
-      clearTimeout(timer);
-      obs.disconnect();
-    };
-  // Re-run when route changes so back-navigation works
+    return () => obs.disconnect();
   }, [ready, routeKey]);
 }

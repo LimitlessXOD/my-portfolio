@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 
 const ThemeContext = createContext();
 
@@ -7,17 +7,17 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
-  const [dark, setDark] = useState(true);
-
-  useEffect(() => {
+  // Read localStorage synchronously on first render — no flash
+  const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('mugensoft-theme');
-    if (saved) setDark(saved === 'dark');
-  }, []);
+    return saved ? saved === 'dark' : true;
+  });
 
   const toggle = () => {
     setDark(d => {
-      localStorage.setItem('mugensoft-theme', !d ? 'dark' : 'light');
-      return !d;
+      const next = !d;
+      localStorage.setItem('mugensoft-theme', next ? 'dark' : 'light');
+      return next;
     });
   };
 
