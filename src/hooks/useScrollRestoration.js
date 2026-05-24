@@ -1,39 +1,41 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
-const STORAGE_KEY = 'mugensoft-scroll';
+const KEY = 'mugensoft-scroll';
 
-/**
- * Saves scroll position per-route to sessionStorage.
- * On POP navigation (back/forward), restores the saved position.
- * On PUSH (clicking a link), saves current position then scrolls new page to top.
- */
 export default function useScrollRestoration() {
-  const location = useLocation();
-  const navType = useNavigationType(); // 'PUSH' | 'POP' | 'REPLACE'
+  const location  = useLocation();
+  const navType   = useNavigationType();
   const scrollRef = useRef(0);
 
-  // Track scroll position continuously so we can save it on navigate
+  // Track scroll continuously
   useEffect(() => {
-    const onScroll = () => { scrollRef.current = window.scrollY; };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => { scrollRef.current = window.scrollY; };
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  // Save position for THIS route when leaving it (cleanup runs on location.key change)
+  useEffect(() => {
+    return () => {
+      sessionStorage.setItem(`${KEY}:${location.key}`, String(scrollRef.current));
+    };
+  }, [location.key]);
+
+  // Restore or reset scroll when arriving at a new route
   useEffect(() => {
     if (navType === 'POP') {
       // Going back/forward — restore saved position
-      const saved = sessionStorage.getItem(`${STORAGE_KEY}:${location.key}`);
+      const saved = sessionStorage.getItem(`${KEY}:${location.key}`);
       const y = saved ? parseInt(saved, 10) : 0;
-      // Small delay to let the page render before jumping
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          window.scrollTo({ top: y, behavior: 'instant' });
-        });
-      });
+      // Two rAF frames: first lets React paint the page, second restores scroll
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() =>
+          window.scrollTo({ top: y, behavior: 'instant' })
+        )
+      );
     } else {
-      // New navigation — save where we are, scroll new page to top
-      sessionStorage.setItem(`${STORAGE_KEY}:${location.key}`, scrollRef.current);
+      // Fresh navigation — start at top
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [location.key, navType]);
