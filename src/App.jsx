@@ -157,6 +157,11 @@ function Hero() {
           <a href="#projects" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-block' }}>View Projects →</a>
           <a href="#services" className="btn-secondary" style={{ textDecoration: 'none', display: 'inline-block' }}>Hire Me</a>
           <a href="https://github.com/LimitlessXOD" target="_blank" rel="noreferrer" className="btn-secondary" style={{ textDecoration: 'none', display: 'inline-block' }}>GitHub ↗</a>
+          <a href="/mugensoft-cv.pdf" download="Erastus_Shalimba_CV.pdf" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'Space Mono', fontSize: 13, color: 'var(--muted)', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 28px', borderRadius: 6, transition: 'all 0.2s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; e.currentTarget.style.color = 'var(--text)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'var(--muted)'; }}>
+            ↓ Download CV
+          </a>
         </div>
 
         {/* Stats */}
