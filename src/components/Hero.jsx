@@ -196,8 +196,8 @@ export default function Hero() {
             <span style={{ display: 'block' }}>
               <WordCycle />
             </span>
-            <span style={{ display: 'block', color: 'var(--text)' }}>Deploy.</span>
-            <span className="grad-text" style={{ display: 'block' }}>Iterate.</span>
+
+
           </h1>
         </div>
 

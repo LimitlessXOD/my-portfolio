@@ -8,12 +8,12 @@ export default function Guestbook() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => { if (supabaseReady) fetchComments(); }, []);
-
   const fetchComments = async () => {
     const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
     if (!error && data) setComments(data);
   };
+
+  useEffect(() => { if (supabaseReady) fetchComments(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
@@ -129,17 +129,20 @@ const projectDetails = {
 
 export default function ProjectPage() {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const p = projectDetails[slug];
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   if (!p) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-        <h2 style={{ fontFamily: 'Space Mono', color: 'var(--cyan)' }}>// 404 — Project not found</h2>
-        <Link to="/" className="btn-primary" style={{ textDecoration: 'none' }}>← Back Home</Link>
-      </div>
+      <>
+        <Nav />
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+          <h2 style={{ fontFamily: 'Space Mono', color: 'var(--cyan)' }}>// 404 — Project not found</h2>
+          <Link to="/" className="btn-primary" style={{ textDecoration: 'none' }}>← Back Home</Link>
+        </div>
+        <Footer />
+      </>
     );
   }
 
