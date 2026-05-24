@@ -10,10 +10,9 @@ export default function useReveal(ready = true, routeKey = '', isPop = false) {
     if (!ready) return;
 
     if (isPop) {
-      // Back/forward navigation: wait for the 0.38s PageTransition slide animation
-      // to finish AND for scroll restoration (double-rAF) to settle before revealing.
-      // Querying the DOM inside the timeout ensures we hit fully-painted, correctly
-      // positioned elements — not mid-animation, pre-scroll-restore ones.
+      // Back/forward navigation: wait for any entry animation to finish AND
+      // for scroll restoration to settle before revealing.
+      // DOM query is inside the timeout so we hit fully-painted elements.
       const timer = setTimeout(() => {
         const all = document.querySelectorAll('.reveal');
         all.forEach(el => {
@@ -23,7 +22,7 @@ export default function useReveal(ready = true, routeKey = '', isPop = false) {
         requestAnimationFrame(() => {
           all.forEach(el => { el.style.transition = ''; });
         });
-      }, 400); // 400ms > 380ms animation duration — gives layout time to fully settle
+      }, 400);
       return () => clearTimeout(timer);
     }
 

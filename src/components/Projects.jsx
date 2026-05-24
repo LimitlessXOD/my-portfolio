@@ -2,20 +2,46 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { projectsList } from '../data/portfolioData';
 
+const slugMap = {
+  '01': 'chess-platform',
+  '02': 'mugen-desktop-app',
+  '03': 'mugensoft-portfolio',
+};
+
+const productMap = {
+  '01': '/products/chess',
+  '02': '/products/mugen',
+};
+
 export default function Projects() {
   return (
     <section id="projects" style={{ background: 'var(--bg)', padding: '100px 0' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 32px' }}>
-        <p className="section-label reveal">03. Projects</p>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 8 }}>
-          <h2 className="reveal" style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: 700 }}>Things I've Built</h2>
-          <Link to="/projects" className="reveal" style={{ fontFamily: 'Space Mono', fontSize: 12, color: 'var(--cyan)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid rgba(0,229,204,0.3)', padding: '8px 16px', borderRadius: 6, transition: 'background 0.2s' }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,229,204,0.08)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            View All Projects ↗
+
+        {/* Header row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <p className="section-label reveal">03. Projects</p>
+            <h2 className="reveal" style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: 700, marginBottom: 8 }}>Things I've Built</h2>
+            <p className="reveal delay-1" style={{ color: 'var(--muted)' }}>Real products, real deployments, real code</p>
+          </div>
+          <Link
+            to="/projects"
+            className="reveal"
+            style={{
+              fontFamily: 'Space Mono', fontSize: 12,
+              color: 'var(--cyan)', textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              border: '1px solid var(--border)',
+              padding: '8px 20px', borderRadius: 8,
+              transition: 'border-color 0.2s, background 0.2s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--cyan)'; e.currentTarget.style.background = 'rgba(0,229,204,0.06)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'transparent'; }}
+          >
+            View All Projects →
           </Link>
         </div>
-        <p className="reveal delay-1" style={{ color: 'var(--muted)', marginBottom: 48 }}>Real products, real deployments, real code</p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
           {projectsList.map((p, i) => (
@@ -38,39 +64,62 @@ export default function Projects() {
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
                   {p.tags.map(t => (
-                    <span key={t} className="mono" style={{ background: 'rgba(128,128,128,0.1)', border: '1px solid var(--border)', padding: '4px 12px', borderRadius: 4, fontSize: 11, color: 'var(--muted)' }}>{t}</span>
+                    <span key={t} className="mono" style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '4px 12px', borderRadius: 4, fontSize: 11, color: 'var(--muted)' }}>{t}</span>
                   ))}
                 </div>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 }}>
-                  <Link to={`/projects/${p.slug}`}
-                    style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '8px 20px', borderRadius: 6, border: `1px solid ${p.color}`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'background 0.2s' }}
-                    onMouseEnter={e => e.currentTarget.style.background = `${p.color}15`}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                    📖 Case Study →
-                  </Link>
                   <a href={p.github} target="_blank" rel="noreferrer" className="btn-secondary" style={{ textDecoration: 'none', fontSize: 11, padding: '7px 18px' }}>⚙ GitHub</a>
                   {p.demo && (
                     <a href={p.demo} target="_blank" rel="noreferrer"
-                      style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none' }}>
+                      style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                       ↗ Live Demo
                     </a>
                   )}
+                  <Link
+                    to={`/projects/${slugMap[p.num]}`}
+                    style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, background: `${p.color}15`, border: `1px solid ${p.color}40`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'background 0.2s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = `${p.color}25`}
+                    onMouseLeave={e => e.currentTarget.style.background = `${p.color}15`}
+                  >
+                    Case Study →
+                  </Link>
+                  {productMap[p.num] && (
+                    <Link
+                      to={productMap[p.num]}
+                      style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, background: 'transparent', border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'all 0.2s' }}
+                      onMouseEnter={e => { e.currentTarget.style.background = `${p.color}15`; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                    >
+                      ↗ Product Page
+                    </Link>
+                  )}
                 </div>
               </div>
-
-              {/* Screenshot links to case study */}
-              <Link to={`/projects/${p.slug}`} style={{ display: 'block', borderTop: '1px solid var(--border)', overflow: 'hidden', position: 'relative', textDecoration: 'none' }}>
-                <img src={p.screenshot} alt={`${p.title} screenshot`}
+              <div style={{ borderTop: '1px solid var(--border)', overflow: 'hidden', position: 'relative' }}>
+                <img
+                  src={p.screenshot}
+                  alt={`${p.title} screenshot`}
                   style={{ width: '100%', display: 'block', transition: 'transform 0.4s ease' }}
                   onMouseEnter={e => e.target.style.transform = 'scale(1.02)'}
                   onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-                  loading="lazy" />
-                <div style={{ position: 'absolute', bottom: 12, right: 12, fontFamily: 'Space Mono', fontSize: 10, color: p.color, border: `1px solid ${p.color}50`, padding: '4px 10px', borderRadius: 4, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
-                  View Case Study →
-                </div>
-              </Link>
+                  loading="lazy"
+                />
+                <Link
+                  to={`/projects/${slugMap[p.num]}`}
+                  style={{ position: 'absolute', bottom: 12, right: 12, fontFamily: 'Space Mono', fontSize: 10, color: p.color, textDecoration: 'none', border: `1px solid ${p.color}50`, padding: '4px 10px', borderRadius: 4, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+                >
+                  Read Case Study →
+                </Link>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="reveal" style={{ textAlign: 'center', marginTop: 48 }}>
+          <Link to="/projects" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-block', padding: '14px 40px', fontSize: 14 }}>
+            Browse All Projects →
+          </Link>
         </div>
       </div>
     </section>

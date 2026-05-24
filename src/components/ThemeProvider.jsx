@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 
 const ThemeContext = createContext();
 
@@ -6,23 +6,12 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
-function applyTheme(isDark) {
-  const theme = isDark ? 'dark' : 'light';
-  // Apply to BOTH html and body so every element on the page gets the variables
-  document.documentElement.setAttribute('data-theme', theme);
-  document.body.setAttribute('data-theme', theme);
-}
-
 export function ThemeProvider({ children }) {
+  // Read localStorage synchronously on first render — no flash
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('mugensoft-theme');
     return saved ? saved === 'dark' : true;
   });
-
-  // Apply theme on first render and whenever dark changes
-  useEffect(() => {
-    applyTheme(dark);
-  }, [dark]);
 
   const toggle = () => {
     setDark(d => {
@@ -34,7 +23,7 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ dark, toggle }}>
-      {children}
+      <div data-theme={dark ? 'dark' : 'light'}>{children}</div>
     </ThemeContext.Provider>
   );
 }

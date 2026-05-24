@@ -4,7 +4,7 @@ export const timelineItems = [
   { year: '2025', label: 'Started BCS @ NUST Namibia', desc: 'Bachelor of Computer Science (Cyber Security) — graduating 2028' },
   { year: '2025', label: 'Launched Chess Platform', desc: 'Built & deployed multiplayer chess on Render — React & Node.js with WebSockets' },
   { year: '2025', label: 'Built MUGEN Desktop App', desc: 'Full-featured desktop media app with player, analytics & library' },
-  { year: '2025', label: 'Founded MugenSoft', desc: 'Building web apps, AI tools, and SaaS. Open for freelance worldwide' },
+  { year: '2026', label: 'Founded MugenSoft', desc: 'Building web apps, AI tools, and SaaS. Open for freelance worldwide' },
 ];
 
 export const skillGroups = [
@@ -17,7 +17,6 @@ export const skillGroups = [
 export const projectsList = [
   {
     num: '01',
-    slug: 'chess-platform',
     title: 'Ultimate Chess Showdown',
     status: 'Live',
     color: '#c9a84c',
@@ -30,7 +29,6 @@ export const projectsList = [
   },
   {
     num: '02',
-    slug: 'mugen-desktop-app',
     title: 'MUGEN — Desktop Media App',
     status: 'Personal',
     color: '#6366f1',
@@ -43,7 +41,6 @@ export const projectsList = [
   },
   {
     num: '03',
-    slug: 'mugensoft-portfolio',
     title: 'MugenSoft Portfolio',
     status: 'Live',
     color: '#10b981',
@@ -78,7 +75,7 @@ export const testimonialsList = [
 ];
 
 export const blogPostsList = [
-  { slug: 'building-chess-platform', tag: 'Full Stack', title: 'How I Built a Multiplayer Chess Platform from Scratch', desc: "The journey of building real-time WebSocket chess — rooms, game state, and deploying on Render's free tier.", date: '2025', color: '#c9a84c', mins: 6 },
-  { slug: 'building-mugen-desktop-app', tag: 'Desktop Dev', title: 'Building a Desktop Media App as a First-Year CS Student', desc: 'Why I built MUGEN, what I learned about yt-dlp, Electron vs Tauri, and managing a local media library.', date: '2025', color: '#6366f1', mins: 8 },
-  { slug: 'freelancing-as-cs-student', tag: 'Career', title: 'How to Start Freelancing as a CS Student with No Experience', desc: "The exact steps I'm taking to land my first clients — portfolio, pricing, platforms, and positioning.", date: '2025', color: '#10b981', mins: 5 },
+  { tag: 'Full Stack', title: 'How I Built a Multiplayer Chess Platform from Scratch', desc: "The journey of building real-time WebSocket chess — rooms, game state, and deploying on Render's free tier.", date: '2025', color: '#c9a84c', mins: 6 },
+  { tag: 'Desktop Dev', title: 'Building a Desktop Media App as a First-Year CS Student', desc: 'Why I built MUGEN, what I learned about yt-dlp, Electron vs Tauri, and managing a local media library.', date: '2025', color: '#6366f1', mins: 8 },
+  { tag: 'Career', title: 'How to Start Freelancing as a CS Student with No Experience', desc: "The exact steps I'm taking to land my first clients — portfolio, pricing, platforms, and positioning.", date: '2025', color: '#10b981', mins: 5 },
 ];

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Nav from '../components/Nav';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -13,10 +13,6 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
 export default function Home() {
-  useEffect(() => {
-    document.title = 'MugenSoft — Erastus (Leroy) Shalimba · Full Stack Developer';
-  }, []);
-
   return (
     <>
       <Nav />

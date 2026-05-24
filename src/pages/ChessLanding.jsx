@@ -31,7 +31,7 @@ export default function ChessLanding() {
   const color = '#c9a84c';
 
   useEffect(() => {
-    
+    window.scrollTo(0, 0);
     const t = setInterval(() => setMoveCount(n => n + 1), 1800);
     return () => clearInterval(t);
   }, []);
@@ -42,7 +42,7 @@ export default function ChessLanding() {
   return (
     <>
       <Nav />
-      <main className="page-enter" style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
 
         {/* ── HERO ── */}
         <section style={{ background: 'var(--bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', paddingTop: 80 }}>

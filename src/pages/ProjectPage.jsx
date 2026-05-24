@@ -131,7 +131,7 @@ export default function ProjectPage() {
   const { slug } = useParams();
   const p = projectDetails[slug];
 
-  
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   if (!p) {
     return (

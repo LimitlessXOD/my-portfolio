@@ -40,7 +40,7 @@ export default function MugenLanding() {
   ];
 
   useEffect(() => {
-    
+    window.scrollTo(0, 0);
     const t = setInterval(() => setActiveTab(n => (n + 1) % tabs.length), 3000);
     return () => clearInterval(t);
   }, []);
@@ -48,7 +48,7 @@ export default function MugenLanding() {
   return (
     <>
       <Nav />
-      <main className="page-enter" style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
 
         {/* ── HERO ── */}
         <section style={{ background: 'var(--bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', paddingTop: 80 }}>
