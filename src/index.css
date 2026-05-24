@@ -3,6 +3,9 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 /* ── Dark theme (default) ── */
+:root,
+html[data-theme="dark"],
+body[data-theme="dark"],
 [data-theme="dark"] {
   --cyan: #00e5cc;
   --cyan-dim: #00b89f;
@@ -19,6 +22,8 @@
 }
 
 /* ── Light theme ── */
+html[data-theme="light"],
+body[data-theme="light"],
 [data-theme="light"] {
   --cyan: #00897b;
   --cyan-dim: #00796b;
@@ -35,7 +40,12 @@
 }
 
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+body { font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
 .mono { font-family: 'Space Mono', monospace; }
 
