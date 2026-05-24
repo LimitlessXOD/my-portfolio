@@ -29,6 +29,7 @@ export default function Nav() {
 
   return (
     <nav
+      className="nav-enter"
       style={{
         position: 'fixed',
         top: 0,

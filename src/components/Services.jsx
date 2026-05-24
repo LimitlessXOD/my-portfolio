@@ -14,9 +14,9 @@ export default function Services() {
         <p className="section-label reveal">04. Services</p>
         <h2 className="reveal" style={{fontSize:'clamp(28px,4vw,44px)',fontWeight:700,marginBottom:12}}>What MugenSoft Builds</h2>
         <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:48}}>Available for freelance. Let's build something useful together.</p>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
-          {servicesList.map((s,i)=>(
-            <div key={s.title} className={`card reveal delay-${(i%4)+1}`} style={{padding:28,display:'flex',flexDirection:'column'}}>
+        <div className="reveal-group" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
+          {servicesList.map((s)=>(
+            <div key={s.title} className="card reveal-child" style={{padding:28,display:'flex',flexDirection:'column'}}>
               <div className="service-icon">{s.icon}</div>
               <h3 style={{fontSize:16,fontWeight:700,marginBottom:8}}>{s.title}</h3>
               <p style={{color:'var(--muted)',fontSize:14,lineHeight:1.6,marginBottom:16,flex:1}}>{s.desc}</p>

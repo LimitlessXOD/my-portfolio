@@ -24,9 +24,9 @@ export default function About() {
             <a href="https://www.linkedin.com/in/erastus-shalimba" target="_blank" rel="noreferrer" className="btn-secondary" style={{textDecoration:'none',fontSize:12,padding:'8px 20px'}}>LinkedIn ↗</a>
           </div>
         </div>
-        <div className="reveal delay-2" style={{display:'flex',flexDirection:'column',gap:20}}>
+        <div className="reveal-right" style={{display:'flex',flexDirection:'column',gap:20}}>
           {timelineItems.map((item,i)=>(
-            <div key={i} className={`timeline-item reveal delay-${i+1}`}>
+            <div key={i} className={`timeline-item reveal-left delay-${i+1}`}>
               <div className="timeline-dot" />
               <div style={{fontFamily:'Space Mono',fontSize:11,color:'var(--cyan)',marginBottom:4}}>{item.year}</div>
               <div style={{fontWeight:600,fontSize:15,marginBottom:2}}>{item.label}</div>

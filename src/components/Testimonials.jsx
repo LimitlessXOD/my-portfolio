@@ -7,9 +7,9 @@ export default function Testimonials() {
         <p className="section-label reveal">06. Testimonials</p>
         <h2 className="reveal" style={{fontSize:'clamp(28px,4vw,44px)',fontWeight:700,marginBottom:8}}>What People Say</h2>
         <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:48}}>Early feedback — more coming as I take on clients.</p>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:24}}>
+        <div className="reveal-group" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:24}}>
           {testimonialsList.map((t,i)=>(
-            <div key={i} className={`card reveal delay-${i+1}`} style={{padding:28,position:'relative',overflow:'hidden'}}>
+            <div key={i} className="card reveal-child" style={{padding:28,position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:16,right:20,fontSize:40,color:`${t.color}15`,fontFamily:'Georgia',lineHeight:1}}>"</div>
               <div style={{fontSize:28,marginBottom:16,color:t.color,opacity:0.7}}>★★★★★</div>
               <p style={{color:'var(--muted)',fontSize:14,lineHeight:1.7,marginBottom:24,fontStyle:'italic'}}>"{t.text}"</p>

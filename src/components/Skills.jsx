@@ -18,7 +18,7 @@ function SkillBar({ name, pct, delay = 0 }) {
         <span style={{fontFamily:'Space Mono',fontSize:11,color:'var(--cyan)'}}>{pct}%</span>
       </div>
       <div style={{height:4,background:'var(--border)',borderRadius:2,overflow:'hidden'}}>
-        <div style={{height:'100%',width:`${width}%`,background:'linear-gradient(90deg,var(--cyan),#6366f1)',borderRadius:2,transition:'width 1s cubic-bezier(0.4,0,0.2,1)'}} />
+        <div className="skill-bar-fill" style={{height:'100%',width:`${width}%`,background:'linear-gradient(90deg,var(--cyan),#6366f1)',borderRadius:2,transition:'width 1s cubic-bezier(0.4,0,0.2,1)'}} />
       </div>
     </div>
   );

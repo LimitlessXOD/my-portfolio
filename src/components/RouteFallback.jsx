@@ -12,7 +12,7 @@ export default function RouteFallback() {
         letterSpacing: 2,
       }}
     >
-      Loading…
+      <span className="loading-pulse">Loading…</span>
     </div>
   );
 }

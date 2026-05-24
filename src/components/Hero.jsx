@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useTyping from '../hooks/useTyping';
+import CountUpStat from './CountUpStat';
 
 /* Floating particle canvas */
 function ParticleCanvas() {
@@ -262,10 +263,17 @@ export default function Hero() {
               borderRight: i < stats.length - 1 ? '1px solid var(--border)' : 'none',
               marginRight: i < stats.length - 1 ? 32 : 0,
             }}>
-              <div className="grad-text" style={{
-                fontSize: 'clamp(28px,3.5vw,40px)',
-                fontWeight: 900, lineHeight: 1, marginBottom: 4,
-              }}>{n}</div>
+              <CountUpStat
+                stat={n}
+                className="grad-text"
+                style={{
+                  fontSize: 'clamp(28px,3.5vw,40px)',
+                  fontWeight: 900,
+                  lineHeight: 1,
+                  marginBottom: 4,
+                  display: 'block',
+                }}
+              />
               <div style={{
                 color: 'var(--muted)', fontSize: 11,
                 fontFamily: 'Space Mono, monospace', letterSpacing: 1,

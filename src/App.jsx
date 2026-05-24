@@ -27,15 +27,17 @@ function AppContent() {
     <>
       {loading && <Loader onDone={() => setLoading(false)} />}
       <Suspense fallback={<RouteFallback />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<ProjectsHub />} />
-          <Route path="/projects/:slug" element={<ProjectPage />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/products/chess" element={<ChessLanding />} />
-          <Route path="/products/mugen" element={<MugenLanding />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div key={location.pathname} className="page-route-enter">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<ProjectsHub />} />
+            <Route path="/projects/:slug" element={<ProjectPage />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/products/chess" element={<ChessLanding />} />
+            <Route path="/products/mugen" element={<MugenLanding />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </Suspense>
     </>
   );

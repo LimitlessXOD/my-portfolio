@@ -14,12 +14,12 @@ export default function Blog() {
         <p className="section-label reveal">07. Blog</p>
         <h2 className="reveal" style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: 700, marginBottom: 8 }}>Things I've Learned</h2>
         <p className="reveal delay-1" style={{ color: 'var(--muted)', marginBottom: 48 }}>Writing about building, shipping and growing as a dev.</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="reveal-group" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {blogPostsList.map((p, i) => (
             <Link
               key={i}
               to={`/blog/${slugMap[i]}`}
-              className={`card reveal delay-${i + 1}`}
+              className="card reveal-child tilt-hover"
               style={{
                 padding: '28px 32px',
                 display: 'flex',
@@ -41,7 +41,7 @@ export default function Blog() {
                 <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 8, lineHeight: 1.3 }}>{p.title}</h3>
                 <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>{p.desc}</p>
               </div>
-              <div style={{ color: 'var(--muted)', fontSize: 20, flexShrink: 0, marginTop: 4, transition: 'color 0.2s, transform 0.2s' }}>→</div>
+              <div className="blog-arrow" style={{ color: 'var(--muted)', fontSize: 20, flexShrink: 0, marginTop: 4 }}>→</div>
             </Link>
           ))}
         </div>

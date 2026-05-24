@@ -42,9 +42,9 @@ export default function Projects() {
           </Link>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-          {projectsList.map((p, i) => (
-            <div key={p.num} className={`card reveal delay-${i + 1}`} style={{ overflow: 'hidden', position: 'relative' }}>
+        <div className="reveal-group" style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+          {projectsList.map((p) => (
+            <div key={p.num} className="card reveal-child" style={{ overflow: 'hidden', position: 'relative' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${p.color},transparent)` }} />
               <div style={{ padding: '32px 32px 0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>

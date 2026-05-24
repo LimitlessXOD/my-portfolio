@@ -1,5 +1,41 @@
 import { useEffect } from 'react';
 
+const REVEAL_SELECTOR = '.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-fade, .reveal-group';
+
+function showElement(el, observer) {
+  if (el.classList.contains('reveal-group')) {
+    el.classList.add('visible');
+    el.querySelectorAll('.reveal-child').forEach((child, i) => {
+      setTimeout(() => child.classList.add('visible'), i * 85);
+    });
+    observer.unobserve(el);
+    return;
+  }
+  el.classList.add('visible');
+  observer.unobserve(el);
+}
+
+function resetElements(all) {
+  all.forEach(el => {
+    el.style.transition = 'none';
+    el.classList.remove('visible');
+    el.querySelectorAll('.reveal-child').forEach(c => c.classList.remove('visible'));
+  });
+  void document.body.offsetHeight;
+  all.forEach(el => { el.style.transition = ''; });
+}
+
+function revealAllImmediately(all) {
+  all.forEach(el => {
+    el.style.transition = 'none';
+    el.classList.add('visible');
+    el.querySelectorAll('.reveal-child').forEach(c => c.classList.add('visible'));
+  });
+  requestAnimationFrame(() => {
+    all.forEach(el => { el.style.transition = ''; });
+  });
+}
+
 /**
  * @param {boolean} ready     - wait for loader to finish before running
  * @param {string}  routeKey  - re-run when route changes
@@ -10,50 +46,33 @@ export default function useReveal(ready = true, routeKey = '', isPop = false) {
     if (!ready) return;
 
     if (isPop) {
-      // Back/forward navigation: wait for any entry animation to finish AND
-      // for scroll restoration to settle before revealing.
-      // DOM query is inside the timeout so we hit fully-painted elements.
       const timer = setTimeout(() => {
-        const all = document.querySelectorAll('.reveal');
-        all.forEach(el => {
-          el.style.transition = 'none';
-          el.classList.add('visible');
-        });
-        requestAnimationFrame(() => {
-          all.forEach(el => { el.style.transition = ''; });
-        });
+        revealAllImmediately(document.querySelectorAll(REVEAL_SELECTOR));
       }, 400);
       return () => clearTimeout(timer);
     }
 
-    // Forward navigation: reset → observe → reveal on scroll
-    const all = document.querySelectorAll('.reveal');
+    const all = document.querySelectorAll(REVEAL_SELECTOR);
 
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          obs.unobserve(e.target);
-        }
+        if (e.isIntersecting) showElement(e.target, obs);
       }),
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
 
-    // Suppress transitions during reset to avoid flash
-    all.forEach(el => {
-      el.style.transition = 'none';
-      el.classList.remove('visible');
-    });
-
-    // Force reflow so removal takes effect
-    void document.body.offsetHeight;
+    resetElements(all);
 
     requestAnimationFrame(() => {
-      all.forEach(el => { el.style.transition = ''; });
       all.forEach(el => {
         const { top } = el.getBoundingClientRect();
         if (top < window.innerHeight) {
-          el.classList.add('visible');
+          if (el.classList.contains('reveal-group')) {
+            showElement(el, obs);
+          } else {
+            el.classList.add('visible');
+            obs.unobserve(el);
+          }
         } else {
           obs.observe(el);
         }
