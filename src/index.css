@@ -95,6 +95,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .nav-link:hover { color: var(--cyan); }
 .nav-link:hover::after { width: 100%; }
 
+/* ── Legacy btn styles (kept for other components) ── */
 .btn-primary {
   background: transparent; border: 1px solid var(--cyan); color: var(--cyan);
   padding: 10px 28px; border-radius: 6px; font-family: 'Space Mono', monospace;
@@ -109,6 +110,87 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
   font-size: 13px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
 }
 .btn-secondary:hover { border-color: var(--text); color: var(--text); }
+
+/* ── Hero-specific button variants ── */
+.btn-hero-primary {
+  background: var(--cyan);
+  color: #080c12;
+  border: 1px solid var(--cyan);
+  padding: 13px 32px;
+  border-radius: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn-hero-primary:hover {
+  background: var(--cyan-dim);
+  box-shadow: 0 0 28px rgba(0,229,204,0.35);
+  transform: translateY(-2px);
+}
+[data-theme="light"] .btn-hero-primary { color: #ffffff; }
+
+.btn-hero-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-solid);
+  padding: 13px 32px;
+  border-radius: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-hero-secondary:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.btn-hero-wa {
+  background: rgba(37,211,102,0.1);
+  color: #25d366;
+  border: 1px solid rgba(37,211,102,0.3);
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-hero-wa:hover {
+  background: rgba(37,211,102,0.18);
+  transform: translateY(-2px);
+}
+
+.btn-hero-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 13px 24px;
+  border-radius: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-hero-ghost:hover {
+  border-color: var(--muted);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+/* ── Word cycle animation ── */
+.word-cycle {
+  display: inline-block;
+  animation: wordIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes wordIn {
+  from { opacity: 0; transform: translateY(20px) skewY(3deg); }
+  to   { opacity: 1; transform: translateY(0) skewY(0deg); }
+}
 
 .section-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--cyan); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
 
@@ -148,7 +230,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
   animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ── Input fields ── */
+/* ── Input fields (deduplicated) ── */
 .input-field {
   width: 100%;
   background: var(--input-bg);
