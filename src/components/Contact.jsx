@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import { supabase, supabaseReady } from '../supabaseClient';
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -9,7 +9,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !message) return;
+    if (!name || !email || !message || !supabaseReady) return;
     setStatus('sending');
     try {
       const { error } = await supabase.from('contact_messages').insert([{ name, email, message }]);
@@ -31,15 +31,22 @@ export default function Contact() {
       <p className="reveal delay-1" style={{color:'var(--muted)',maxWidth:480,margin:'0 auto 60px',lineHeight:1.7,textAlign:'center'}}>
         Open for freelance, collaborations, and internships. Based in Windhoek, Namibia — working with clients worldwide.
       </p>
+
+      {!supabaseReady && (
+        <div style={{maxWidth:480,margin:'-40px auto 40px',background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.3)',borderRadius:10,padding:'12px 20px',fontFamily:'Space Mono',fontSize:12,color:'#f59e0b',textAlign:'center'}}>
+          ⚠ Contact form offline — use WhatsApp or email below directly.
+        </div>
+      )}
+
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:48,alignItems:'start'}}>
         <div className="card reveal" style={{padding:32}}>
           <h3 style={{fontSize:16,fontWeight:700,marginBottom:24,fontFamily:'Space Mono',color:'var(--cyan)'}}>// Send a Message</h3>
           <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
-            <input className="input-field" placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} required />
-            <input className="input-field" type="email" placeholder="Your email" value={email} onChange={e=>setEmail(e.target.value)} required />
-            <textarea className="input-field" placeholder="Tell me about your project..." rows={5} value={message} onChange={e=>setMessage(e.target.value)} style={{resize:'vertical'}} required />
-            <button type="submit" className="btn-primary" disabled={status==='sending'} style={{padding:'12px 24px',fontSize:14}}>
-              {status==='sending'?'Sending...':status==='success'?'✓ Message Sent!':status==='error'?'✗ Try Again':'Send Message →'}
+            <input className="input-field" placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} required disabled={!supabaseReady} />
+            <input className="input-field" type="email" placeholder="Your email" value={email} onChange={e=>setEmail(e.target.value)} required disabled={!supabaseReady} />
+            <textarea className="input-field" placeholder="Tell me about your project..." rows={5} value={message} onChange={e=>setMessage(e.target.value)} style={{resize:'vertical'}} required disabled={!supabaseReady} />
+            <button type="submit" className="btn-primary" disabled={status==='sending' || !supabaseReady} style={{padding:'12px 24px',fontSize:14}}>
+              {!supabaseReady ? 'Use WhatsApp / Email ↓' : status==='sending'?'Sending...':status==='success'?'✓ Message Sent!':status==='error'?'✗ Try Again':'Send Message →'}
             </button>
             {status==='success' && <p style={{fontFamily:'Space Mono',fontSize:12,color:'var(--cyan)',textAlign:'center'}}>I'll get back to you within 24hrs!</p>}
           </form>

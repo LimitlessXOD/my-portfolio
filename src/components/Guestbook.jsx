@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import { supabase, supabaseReady } from '../supabaseClient';
 
 export default function Guestbook() {
   const [comments, setComments] = useState([]);
@@ -8,7 +8,7 @@ export default function Guestbook() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => { fetchComments(); }, []);
+  useEffect(() => { if (supabaseReady) fetchComments(); }, []);
 
   const fetchComments = async () => {
     const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
@@ -17,7 +17,7 @@ export default function Guestbook() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !commentText) return;
+    if (!name || !commentText || !supabaseReady) return;
     setLoading(true);
     const { error } = await supabase.from('comments').insert([{ name, text: commentText }]);
     if (!error) { setName(''); setCommentText(''); setSubmitted(true); fetchComments(); }
@@ -31,13 +31,20 @@ export default function Guestbook() {
         <p className="section-label reveal">08. Guestbook</p>
         <h2 className="reveal" style={{fontSize:'clamp(24px,3vw,36px)',fontWeight:700,marginBottom:8}}>Leave a Note</h2>
         <p className="reveal delay-1" style={{color:'var(--muted)',marginBottom:40}}>Say hi, drop feedback, or just leave your mark!</p>
+
+        {!supabaseReady && (
+          <div style={{background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.3)',borderRadius:10,padding:'12px 20px',marginBottom:24,fontFamily:'Space Mono',fontSize:12,color:'#f59e0b'}}>
+            ⚠ Guestbook offline — add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel environment variables.
+          </div>
+        )}
+
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:48,alignItems:'start'}}>
           <div className="card reveal" style={{padding:32}}>
             <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
-              <input className="input-field" placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} required />
-              <textarea className="input-field" placeholder="Your message..." rows={4} value={commentText} onChange={e=>setCommentText(e.target.value)} style={{resize:'none'}} required />
-              <button type="submit" className="btn-primary" disabled={loading} style={{padding:'12px 24px',fontSize:14}}>
-                {loading ? 'Sending...' : submitted ? '✓ Sent!' : 'Submit →'}
+              <input className="input-field" placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} required disabled={!supabaseReady} />
+              <textarea className="input-field" placeholder="Your message..." rows={4} value={commentText} onChange={e=>setCommentText(e.target.value)} style={{resize:'none'}} required disabled={!supabaseReady} />
+              <button type="submit" className="btn-primary" disabled={loading || !supabaseReady} style={{padding:'12px 24px',fontSize:14}}>
+                {!supabaseReady ? 'Unavailable' : loading ? 'Sending...' : submitted ? '✓ Sent!' : 'Submit →'}
               </button>
             </form>
           </div>
