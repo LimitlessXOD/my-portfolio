@@ -58,7 +58,7 @@ src/
 ├── pages/            # Route-level pages (Home, ProjectsHub, ProjectPage, BlogPost…)
 ├── data/
 │   └── portfolioData.js  # All content — projects, skills, services, blog posts
-├── App.jsx           # Router, PageTransition wrapper, ThemeProvider
+├── App.jsx           # Router, scroll restoration, reveal hook, ThemeProvider
 └── main.jsx
 public/
 ├── sitemap.xml
@@ -76,7 +76,7 @@ supabase/
 ### Prerequisites
 
 - Node.js 18+
-- A [Supabase](https://supabase.com) project with two tables: `guestbook` and `contact_submissions`
+- A [Supabase](https://supabase.com) project with two tables: `comments` (guestbook) and `contact_messages` (contact form)
 
 ### Installation
 
