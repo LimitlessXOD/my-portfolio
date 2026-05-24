@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function useTyping(words) {
+  const wordsRef = useRef(words);
   const [display, setDisplay] = useState('');
   const [wordIdx, setWordIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const word = words[wordIdx];
+    const word = wordsRef.current[wordIdx];
     const delay = deleting ? 60 : charIdx === word.length ? 1800 : 90;
     const t = setTimeout(() => {
       if (!deleting && charIdx < word.length) {
@@ -20,11 +21,11 @@ export default function useTyping(words) {
         setCharIdx(c => c - 1);
       } else {
         setDeleting(false);
-        setWordIdx(i => (i + 1) % words.length);
+        setWordIdx(i => (i + 1) % wordsRef.current.length);
       }
     }, delay);
     return () => clearTimeout(t);
-  }, [charIdx, deleting, wordIdx, words]);
+  }, [charIdx, deleting, wordIdx]);
 
   return display;
 }

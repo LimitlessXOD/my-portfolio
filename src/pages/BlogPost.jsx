@@ -201,14 +201,6 @@ export default function BlogPost() {
     );
   }
 
-  const readingProgress = () => {
-    const el = document.getElementById('post-body');
-    if (!el) return 0;
-    const { top, height } = el.getBoundingClientRect();
-    const scrolled = Math.max(0, -top);
-    return Math.min(100, (scrolled / (height - window.innerHeight)) * 100);
-  };
-
   return (
     <>
       <Nav />

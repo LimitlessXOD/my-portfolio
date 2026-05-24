@@ -27,9 +27,11 @@ const STACK = [
   { layer: 'Storage', items: ['SQLite', 'Local File System', 'Metadata Engine'] },
 ];
 
+const TABS = ['Downloader', 'Library', 'Analytics', 'Player'];
+
 export default function MugenLanding() {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ['Downloader', 'Library', 'Analytics', 'Player'];
+  const tabs = TABS;
   const tabDesc = [
     'Search any YouTube or TikTok URL. Select quality, format, and destination. Download progress streams in real time via yt-dlp stdout.',
     'Your entire media collection in one place. Sort by date, duration, or tag. Full-text search across titles and metadata.',
