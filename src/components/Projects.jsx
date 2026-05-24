@@ -1,16 +1,6 @@
 import { Link } from 'react-router-dom';
-import { projectsList } from '../data/portfolioData';
-
-const slugMap = {
-  '01': 'chess-platform',
-  '02': 'mugen-desktop-app',
-  '03': 'mugensoft-portfolio',
-};
-
-const productMap = {
-  '01': '/products/chess',
-  '02': '/products/mugen',
-};
+import { hubProjects, projectSlugMap, projectProductMap } from '../data/portfolioData';
+import { trackDemoClick } from '../lib/analytics';
 
 export default function Projects() {
   return (
@@ -43,7 +33,7 @@ export default function Projects() {
         </div>
 
         <div className="reveal-group" style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-          {projectsList.map((p) => (
+          {hubProjects.filter(p => p.featured).map((p) => (
             <div key={p.num} className="card reveal-child" style={{ overflow: 'hidden', position: 'relative' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${p.color},transparent)` }} />
               <div style={{ padding: '32px 32px 0' }}>
@@ -69,22 +59,27 @@ export default function Projects() {
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 }}>
                   <a href={p.github} target="_blank" rel="noreferrer" className="btn-secondary" style={{ textDecoration: 'none', fontSize: 11, padding: '7px 18px' }}>⚙ GitHub</a>
                   {p.demo && (
-                    <a href={p.demo} target="_blank" rel="noreferrer"
-                      style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <a
+                      href={p.demo}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackDemoClick(p.slug ?? projectSlugMap[p.num], p.demo)}
+                      style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                    >
                       ↗ Live Demo
                     </a>
                   )}
                   <Link
-                    to={`/projects/${slugMap[p.num]}`}
+                    to={`/projects/${projectSlugMap[p.num]}`}
                     style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, background: `${p.color}15`, border: `1px solid ${p.color}40`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'background 0.2s' }}
                     onMouseEnter={e => e.currentTarget.style.background = `${p.color}25`}
                     onMouseLeave={e => e.currentTarget.style.background = `${p.color}15`}
                   >
                     Case Study →
                   </Link>
-                  {productMap[p.num] && (
+                  {projectProductMap[p.num] && (
                     <Link
-                      to={productMap[p.num]}
+                      to={projectProductMap[p.num]}
                       style={{ fontFamily: 'Space Mono', fontSize: 11, padding: '7px 18px', borderRadius: 6, background: 'transparent', border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'all 0.2s' }}
                       onMouseEnter={e => { e.currentTarget.style.background = `${p.color}15`; }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
@@ -104,7 +99,7 @@ export default function Projects() {
                   loading="lazy"
                 />
                 <Link
-                  to={`/projects/${slugMap[p.num]}`}
+                  to={`/projects/${projectSlugMap[p.num]}`}
                   style={{ position: 'absolute', bottom: 12, right: 12, fontFamily: 'Space Mono', fontSize: 10, color: p.color, textDecoration: 'none', border: `1px solid ${p.color}50`, padding: '4px 10px', borderRadius: 4, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
                 >
                   Read Case Study →

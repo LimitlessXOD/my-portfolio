@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { supabase, supabaseReady } from '../supabaseClient';
+import { bookingUrl } from '../data/portfolioData';
+import { trackEvent } from '../lib/analytics';
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -19,6 +21,7 @@ export default function Contact() {
       } catch (err) {
         console.warn('Email notification failed:', err);
       }
+      trackEvent('contact_submit', { name });
       setStatus('success'); setName(''); setEmail(''); setMessage('');
     } catch (err) {
       console.error(err); setStatus('error');
@@ -78,6 +81,15 @@ export default function Contact() {
             </div>
           </div>
           <div style={{borderTop:'1px solid var(--border)',paddingTop:24}}>
+            <h3 style={{fontSize:14,fontWeight:700,marginBottom:16,fontFamily:'Space Mono',color:'var(--muted)'}}>// Quick actions</h3>
+            <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:20}}>
+              <a href="/mugensoft-cv.pdf" download="Erastus_Shalimba_CV.pdf" className="btn-primary" style={{textDecoration:'none',fontSize:12,padding:'8px 20px'}}>↓ Request Resume</a>
+              {bookingUrl ? (
+                <a href={bookingUrl} target="_blank" rel="noreferrer" className="btn-secondary" style={{textDecoration:'none',fontSize:12,padding:'8px 20px'}} onClick={() => trackEvent('booking_click')}>📅 Book a Call</a>
+              ) : (
+                <a href="https://wa.me/264812590824?text=Hi%20Erastus%2C%20I'd%20like%20to%20book%20a%20call." target="_blank" rel="noreferrer" className="btn-secondary" style={{textDecoration:'none',fontSize:12,padding:'8px 20px'}}>📅 Book via WhatsApp</a>
+              )}
+            </div>
             <h3 style={{fontSize:14,fontWeight:700,marginBottom:16,fontFamily:'Space Mono',color:'var(--muted)'}}>// Find me online</h3>
             <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
               {[{label:'GitHub',href:'https://github.com/LimitlessXOD'},{label:'LinkedIn',href:'https://www.linkedin.com/in/erastus-shalimba'}].map(link=>(

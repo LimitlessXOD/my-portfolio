@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import BackLink from '../components/BackLink';
 import useScrollToTopOnEnter from '../hooks/useScrollToTopOnEnter';
+import { trackProjectView, trackDemoClick } from '../lib/analytics';
 
 const projectDetails = {
   'chess-platform': {
@@ -134,6 +136,10 @@ export default function ProjectPage() {
 
   useScrollToTopOnEnter([slug]);
 
+  useEffect(() => {
+    if (slug) trackProjectView(slug);
+  }, [slug]);
+
   if (!p) {
     return (
       <>
@@ -171,7 +177,17 @@ export default function ProjectPage() {
             <p style={{ color: 'var(--muted)', fontSize: 18, maxWidth: 600, lineHeight: 1.7, marginBottom: 32 }}>{p.tagline}</p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href={p.github} target="_blank" rel="noreferrer" className="btn-secondary" style={{ textDecoration: 'none', fontSize: 12 }}>⚙ GitHub</a>
-              {p.demo && <a href={p.demo} target="_blank" rel="noreferrer" style={{ fontFamily: 'Space Mono', fontSize: 12, padding: '10px 24px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none' }}>↗ Live Demo</a>}
+              {p.demo && (
+                <a
+                  href={p.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackDemoClick(slug, p.demo)}
+                  style={{ fontFamily: 'Space Mono', fontSize: 12, padding: '10px 24px', borderRadius: 6, border: `1px solid ${p.color}60`, color: p.color, textDecoration: 'none' }}
+                >
+                  ↗ Live Demo
+                </a>
+              )}
             </div>
           </div>
         </section>

@@ -6,6 +6,7 @@ import RouteFallback from './components/RouteFallback';
 import Home from './pages/Home';
 import useReveal from './hooks/useReveal';
 import useScrollRestoration from './hooks/useScrollRestoration';
+import usePageAnalytics from './hooks/usePageAnalytics';
 
 const ProjectsHub = lazy(() => import('./pages/ProjectsHub'));
 const ProjectPage = lazy(() => import('./pages/ProjectPage'));
@@ -21,6 +22,7 @@ function AppContent() {
   const isPop = navType === 'POP';
 
   useScrollRestoration();
+  usePageAnalytics();
   useReveal(!loading, location.pathname, isPop);
 
   return (

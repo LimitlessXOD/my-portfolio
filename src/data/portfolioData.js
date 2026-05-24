@@ -14,43 +14,84 @@ export const skillGroups = [
   { cat: 'Exploring', color: '#f59e0b', skills: [{ n: 'AI Engineering', p: 55 }, { n: 'Python', p: 50 }, { n: 'PostgreSQL', p: 45 }, { n: 'Desktop Apps', p: 65 }] },
 ];
 
-export const projectsList = [
+/** Canonical project records — used on home, projects hub, and analytics. */
+export const hubProjects = [
   {
     num: '01',
+    slug: 'chess-platform',
     title: 'Ultimate Chess Showdown',
     status: 'Live',
     color: '#c9a84c',
-    desc: 'Real-time multiplayer chess platform with WebSockets, full chess rules (castling, en passant, promotion), match history, W/L/D tracking, and local sandbox mode.',
+    category: 'Games',
+    featured: true,
+    publishedAt: '2025-05-15',
+    popularity: 98,
+    desc: 'Real-time multiplayer chess platform with WebSockets, full chess rules, match history, and local sandbox mode.',
     tags: ['React', 'Node.js', 'Socket.io', 'WebSockets', 'Render'],
     highlights: ['Real-Time Multiplayer via WebSockets', 'Full Chess Rules — castling, en passant, promotion', 'Match History with W/L/D per room', 'Local Sandbox mode'],
     github: 'https://github.com/LimitlessXOD',
     demo: 'https://chess-project-1-y6c5.onrender.com',
     screenshot: '/screenshot-chess.png',
+    productPage: '/products/chess',
+    year: '2025',
   },
   {
     num: '02',
+    slug: 'mugen-desktop-app',
     title: 'MUGEN — Desktop Media App',
     status: 'Personal',
     color: '#6366f1',
-    desc: 'Full-featured desktop media app — YouTube & TikTok search/download, built-in video player, analytics dashboard, personal library (1.37 GB tracked), theme customisation.',
-    tags: ['Desktop App', 'yt-dlp', 'Media Player', 'Analytics'],
+    category: 'Desktop',
+    featured: true,
+    publishedAt: '2025-04-01',
+    popularity: 72,
+    desc: 'Full-featured desktop media app — YouTube & TikTok download, built-in player, analytics dashboard, library management.',
+    tags: ['Desktop App', 'yt-dlp', 'Media Player', 'Analytics', 'JavaScript'],
     highlights: ['YouTube & TikTok downloader', 'Built-in video player with speed controls', 'Analytics dashboard', 'Library management — 1.37 GB tracked'],
     github: 'https://github.com/LimitlessXOD',
     demo: null,
     screenshot: '/screenshot-mugen.png',
+    productPage: '/products/mugen',
+    year: '2025',
   },
   {
     num: '03',
+    slug: 'mugensoft-portfolio',
     title: 'MugenSoft Portfolio',
     status: 'Live',
     color: '#10b981',
-    desc: 'Full-stack developer portfolio with Supabase-powered guestbook & contact form, animated scroll reveals, typing effects, dark/light mode, and mobile-first responsive design.',
+    category: 'Full Stack',
+    featured: true,
+    publishedAt: '2026-01-10',
+    popularity: 85,
+    desc: 'Full-stack developer portfolio with Supabase guestbook, contact form, analytics, dark/light mode, and animated interactions.',
     tags: ['React', 'Vite', 'Supabase', 'Tailwind CSS', 'Vercel'],
     highlights: ['Supabase guestbook + contact form', 'Dark/Light mode toggle', 'Scroll reveal animations', 'Mobile-first responsive design'],
     github: 'https://github.com/LimitlessXOD',
     demo: 'https://mugensoft-dev.vercel.app',
     screenshot: '/screenshot-portfolio.png',
+    productPage: null,
+    year: '2026',
   },
+];
+
+/** @deprecated Use hubProjects — kept for components still importing projectsList */
+export const projectsList = hubProjects.map(({ slug: _s, featured: _f, publishedAt: _p, popularity: _pop, productPage: _pp, ...rest }) => rest);
+
+export const projectSlugMap = Object.fromEntries(hubProjects.map(p => [p.num, p.slug]));
+export const projectProductMap = Object.fromEntries(
+  hubProjects.filter(p => p.productPage).map(p => [p.num, p.productPage])
+);
+
+export const projectCategories = ['All', 'Web', 'Desktop', 'Games', 'Full Stack', 'AI'];
+
+export const allTechTags = [...new Set(hubProjects.flatMap(p => p.tags))].sort();
+
+export const sortOptions = [
+  { id: 'popular', label: 'Most popular' },
+  { id: 'newest', label: 'Newest first' },
+  { id: 'oldest', label: 'Oldest first' },
+  { id: 'name', label: 'Name A–Z' },
 ];
 
 export const servicesList = [
@@ -79,3 +120,6 @@ export const blogPostsList = [
   { tag: 'Desktop Dev', title: 'Building a Desktop Media App as a First-Year CS Student', desc: 'Why I built MUGEN, what I learned about yt-dlp, Electron vs Tauri, and managing a local media library.', date: '2025', color: '#6366f1', mins: 8 },
   { tag: 'Career', title: 'How to Start Freelancing as a CS Student with No Experience', desc: "The exact steps I'm taking to land my first clients — portfolio, pricing, platforms, and positioning.", date: '2025', color: '#10b981', mins: 5 },
 ];
+
+/** Optional: replace with your Calendly link */
+export const bookingUrl = import.meta.env.VITE_BOOKING_URL || '';

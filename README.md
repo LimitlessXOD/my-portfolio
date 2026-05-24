@@ -145,6 +145,11 @@ Both `App.css` and `index.css` previously imported `@import "tailwindcss"`, inje
 - [x] Route code-splitting (React.lazy)
 - [x] ESLint cleanup (modern JSX imports)
 - [x] Hash scroll when navigating to `/#section` from other pages
+- [x] Projects hub — search, category, tech stack, featured, sort
+- [x] Analytics events (Supabase) + Vercel Analytics
+- [x] Contact quick actions (resume, book call / WhatsApp)
+
+See [ROADMAP.md](./ROADMAP.md) for MDX blog, admin CMS, AI features, and more.
 
 ---
 
