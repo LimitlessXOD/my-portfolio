@@ -40,7 +40,7 @@ export default function MugenLanding() {
   ];
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    
     const t = setInterval(() => setActiveTab(n => (n + 1) % tabs.length), 3000);
     return () => clearInterval(t);
   }, []);

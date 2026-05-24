@@ -186,7 +186,7 @@ export default function BlogPost() {
   const { slug } = useParams();
   const post = posts[slug];
 
-  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  
 
   if (!post) {
     return (

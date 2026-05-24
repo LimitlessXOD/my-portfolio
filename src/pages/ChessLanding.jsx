@@ -31,7 +31,7 @@ export default function ChessLanding() {
   const color = '#c9a84c';
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    
     const t = setInterval(() => setMoveCount(n => n + 1), 1800);
     return () => clearInterval(t);
   }, []);
