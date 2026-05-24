@@ -146,7 +146,7 @@ export default function ProjectPage() {
   return (
     <>
       <Nav />
-      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+      <main className="page-enter" style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
 
         {/* Hero */}
         <section style={{ background: 'var(--bg2)', paddingTop: 120, paddingBottom: 60, borderBottom: '1px solid var(--border)' }}>
