@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { supabase, supabaseReady } from '../supabaseClient';
 
 export default function Contact() {
@@ -14,7 +14,11 @@ export default function Contact() {
     try {
       const { error } = await supabase.from('contact_messages').insert([{ name, email, message }]);
       if (error) throw error;
-      try { await supabase.functions.invoke('notify-contact', { body: { name, email, message } }); } catch (_) {}
+      try {
+        await supabase.functions.invoke('notify-contact', { body: { name, email, message } });
+      } catch (err) {
+        console.warn('Email notification failed:', err);
+      }
       setStatus('success'); setName(''); setEmail(''); setMessage('');
     } catch (err) {
       console.error(err); setStatus('error');

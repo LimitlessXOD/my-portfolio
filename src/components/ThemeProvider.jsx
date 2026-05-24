@@ -1,13 +1,7 @@
-import React, { useState, createContext, useContext } from 'react';
-
-const ThemeContext = createContext();
-
-export function useTheme() {
-  return useContext(ThemeContext);
-}
+import { useState } from 'react';
+import { ThemeContext } from '../context/themeContext';
 
 export function ThemeProvider({ children }) {
-  // Read localStorage synchronously on first render — no flash
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('mugensoft-theme');
     return saved ? saved === 'dark' : true;

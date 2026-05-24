@@ -1,5 +1,5 @@
-import React from 'react';
 import Nav from '../components/Nav';
+import useHashScroll from '../hooks/useHashScroll';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Skills from '../components/Skills';
@@ -13,6 +13,8 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
 export default function Home() {
+  useHashScroll();
+
   return (
     <>
       <Nav />

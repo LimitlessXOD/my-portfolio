@@ -1,4 +1,3 @@
-import React from 'react';
 import { nowBuildingItems } from '../data/portfolioData';
 
 export default function NowBuilding() {

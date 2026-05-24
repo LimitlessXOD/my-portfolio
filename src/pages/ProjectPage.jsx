@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -177,7 +177,7 @@ export default function ProjectPage() {
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 32px' }}>
           <div style={{ margin: '48px 0', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--border)', position: 'relative' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
-            <img src={p.screenshot} alt={`${p.title} screenshot`} style={{ width: '100%', display: 'block' }} />
+            <img src={p.screenshot} alt={`${p.title} screenshot`} loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
           </div>
         </div>
 

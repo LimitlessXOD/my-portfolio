@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useTyping from '../hooks/useTyping';
 
 /* Floating particle canvas */
@@ -69,11 +69,11 @@ function ParticleCanvas() {
 /* Animated "Build. Deploy. Iterate." word cycle */
 function WordCycle() {
   const words = ['Build.', 'Deploy.', 'Iterate.'];
-  const [idx, setIdx] = React.useState(0);
+  const [idx, setIdx] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setIdx(i => (i + 1) % words.length), 1800);
     return () => clearInterval(t);
-  }, []);
+  }, [words.length]);
   return (
     <span className="word-cycle" key={idx} style={{ color: 'var(--cyan)', display: 'inline-block' }}>
       {words[idx]}

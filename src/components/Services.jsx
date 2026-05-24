@@ -1,4 +1,3 @@
-import React from 'react';
 import { servicesList } from '../data/portfolioData';
 
 const WA_SVG = (

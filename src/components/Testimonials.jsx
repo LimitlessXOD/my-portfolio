@@ -1,4 +1,3 @@
-import React from 'react';
 import { testimonialsList } from '../data/portfolioData';
 
 export default function Testimonials() {

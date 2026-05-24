@@ -142,6 +142,9 @@ Both `App.css` and `index.css` previously imported `@import "tailwindcss"`, inje
 - [ ] Open-source React component library
 - [ ] TypeScript migration
 - [ ] Vitest unit tests for hooks
+- [x] Route code-splitting (React.lazy)
+- [x] ESLint cleanup (modern JSX imports)
+- [x] Hash scroll when navigating to `/#section` from other pages
 
 ---
 

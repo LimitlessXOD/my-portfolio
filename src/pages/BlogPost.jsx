@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -298,7 +298,7 @@ export default function BlogPost() {
 }
 
 function ReadingBar({ color }) {
-  const [pct, setPct] = React.useState(0);
+  const [pct, setPct] = useState(0);
   useEffect(() => {
     const onScroll = () => {
       const body = document.getElementById('post-body');

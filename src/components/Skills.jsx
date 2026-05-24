@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { skillGroups } from '../data/portfolioData';
 
 function SkillBar({ name, pct, delay = 0 }) {

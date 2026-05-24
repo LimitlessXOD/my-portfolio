@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/portfolioData';
 
 export default function Nav() {

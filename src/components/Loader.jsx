@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Loader({ onDone }) {
   const [pct, setPct] = useState(0);

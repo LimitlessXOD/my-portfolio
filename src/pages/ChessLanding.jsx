@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -141,7 +141,7 @@ export default function ChessLanding() {
                   chess-project-1-y6c5.onrender.com
                 </div>
               </div>
-              <img src="/screenshot-chess.png" alt="Chess Platform screenshot" style={{ width: '100%', display: 'block' }} />
+              <img src="/screenshot-chess.png" alt="Chess Platform screenshot" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
             </div>
           </div>
         </section>

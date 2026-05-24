@@ -1,4 +1,3 @@
-import React from 'react';
 import { timelineItems } from '../data/portfolioData';
 
 export default function About() {

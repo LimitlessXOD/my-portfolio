@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase, supabaseReady } from '../supabaseClient';
 
 export default function Guestbook() {
@@ -8,13 +8,24 @@ export default function Guestbook() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    if (!supabaseReady) return;
+    let active = true;
+    supabase
+      .from('comments')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (active && !error && data) setComments(data);
+      });
+    return () => { active = false; };
+  }, []);
+
   const fetchComments = async () => {
     if (!supabaseReady) return;
     const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
     if (!error && data) setComments(data);
   };
-
-  useEffect(() => { if (supabaseReady) fetchComments(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e) => {
     e.preventDefault();

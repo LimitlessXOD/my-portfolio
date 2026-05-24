@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -43,7 +43,7 @@ export default function MugenLanding() {
     window.scrollTo(0, 0);
     const t = setInterval(() => setActiveTab(n => (n + 1) % tabs.length), 3000);
     return () => clearInterval(t);
-  }, []);
+  }, [tabs.length]);
 
   return (
     <>
@@ -140,7 +140,7 @@ export default function MugenLanding() {
                   MUGEN — Desktop App
                 </div>
               </div>
-              <img src="/screenshot-mugen.png" alt="MUGEN Desktop App screenshot" style={{ width: '100%', display: 'block' }} />
+              <img src="/screenshot-mugen.png" alt="MUGEN Desktop App screenshot" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
             </div>
           </div>
         </section>
