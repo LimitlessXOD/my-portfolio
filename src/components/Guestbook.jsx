@@ -9,6 +9,7 @@ export default function Guestbook() {
   const [submitted, setSubmitted] = useState(false);
 
   const fetchComments = async () => {
+    if (!supabaseReady) return;
     const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
     if (!error && data) setComments(data);
   };
