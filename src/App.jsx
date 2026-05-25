@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import useReveal from './hooks/useReveal';
 import useScrollRestoration from './hooks/useScrollRestoration';
 import usePageAnalytics from './hooks/usePageAnalytics';
+import AskMe from './components/AskMe';
 
 const ProjectsHub = lazy(() => import('./pages/ProjectsHub'));
 const ProjectPage = lazy(() => import('./pages/ProjectPage'));
@@ -41,6 +42,7 @@ function AppContent() {
           </Routes>
         </div>
       </Suspense>
+      <AskMe />
     </>
   );
 }
