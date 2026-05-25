@@ -1,3 +1,15 @@
+import { lazy, Suspense, useState } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, useNavigationType, NavigationType } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
+import { ThemeProvider } from './components/ThemeProvider';
+import Loader from './components/Loader';
+import RouteFallback from './components/RouteFallback';
+import Home from './pages/Home';
+import useReveal from './hooks/useReveal';
+import useScrollRestoration from './hooks/useScrollRestoration';
+import usePageAnalytics from './hooks/usePageAnalytics';
+import AskMe from './components/AskMe';
+
 # MugenSoft — Developer Portfolio
 
 **Live:** [mugensoft-dev.vercel.app](https://mugensoft-dev.vercel.app) · **GitHub:** [@LimitlessXOD](https://github.com/LimitlessXOD)
@@ -158,3 +170,13 @@ See [ROADMAP.md](./ROADMAP.md) for MDX blog, admin CMS, AI features, and more.
 MIT — use freely, credit appreciated.
 
 Built in Windhoek, Namibia 🇳🇦
+
+function AppContent() {
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const navType = useNavigationType();
+  const isPop = navType === NavigationType.Pop;
+
+  useScrollRestoration();
+  usePageAnalytics();
+  useReveal(!loading, location.pathname, isPop);

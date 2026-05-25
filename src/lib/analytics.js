@@ -1,9 +1,20 @@
 import { supabase, supabaseReady } from '../supabaseClient';
 
-let sessionId = sessionStorage.getItem('mugensoft-session');
-if (!sessionId) {
-  sessionId = crypto.randomUUID?.() ?? String(Date.now());
-  sessionStorage.setItem('mugensoft-session', sessionId);
+let sessionId;
+
+function getSessionId() {
+  if (sessionId) return sessionId;
+  if (typeof window === 'undefined' || !window.sessionStorage) {
+    return String(Date.now());
+  }
+
+  sessionId = sessionStorage.getItem('mugensoft-session');
+  if (!sessionId) {
+    sessionId = crypto.randomUUID?.() ?? String(Date.now());
+    sessionStorage.setItem('mugensoft-session', sessionId);
+  }
+
+  return sessionId;
 }
 
 /**
@@ -18,7 +29,7 @@ export function trackEvent(eventType, payload = {}) {
     event_type: eventType,
     path: window.location.pathname + window.location.hash,
     payload,
-    session_id: sessionId,
+    session_id: getSessionId(),
     referrer: document.referrer || null,
     viewport: `${window.innerWidth}x${window.innerHeight}`,
   };
@@ -27,6 +38,7 @@ export function trackEvent(eventType, payload = {}) {
     if (error) console.warn('[analytics]', error.message);
   });
 }
+
 
 export function trackPageView(pathname) {
   trackEvent('page_view', { pathname });

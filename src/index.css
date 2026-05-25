@@ -423,3 +423,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .input-field:focus { border-color: var(--cyan); }
 .input-field::placeholder { color: var(--muted); }
 .input-field:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Contact action links ── */
+.contact-action-link {
+  text-decoration: none;
+  font-size: 12px;
+  padding: 8px 20px;
+}

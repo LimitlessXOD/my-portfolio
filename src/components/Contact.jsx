@@ -11,26 +11,46 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name || !email || !message || !supabaseReady) return;
+
     setStatus('sending');
+
     try {
-      const { error } = await supabase.from('contact_messages').insert([{ name, email, message }]);
-      if (error) throw error;
+      const { error } = await supabase
+          .from('contact_messages')
+          .insert([{ name, email, message }]);
+
+      if (error) {
+        console.error(error);
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 4000);
+        return;
+      }
+
       try {
-        await supabase.functions.invoke('notify-contact', { body: { name, email, message } });
+        await supabase.functions.invoke('notify-contact', {
+          body: { name, email, message },
+        });
       } catch (err) {
         console.warn('Email notification failed:', err);
       }
-      trackEvent('contact_submit', { name });
-      setStatus('success'); setName(''); setEmail(''); setMessage('');
+
+      trackEvent('contact_submit');
+      setStatus('success');
+      setName('');
+      setEmail('');
+      setMessage('');
     } catch (err) {
-      console.error(err); setStatus('error');
+      console.error(err);
+      setStatus('error');
     }
+
     setTimeout(() => setStatus('idle'), 4000);
   };
 
   return (
-    <section id="contact" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
+      <section id="contact" style={{background:'var(--bg)',padding:'100px 0'}}><div style={{maxWidth:900,margin:'0 auto',padding:'0 32px'}}>
       <p className="section-label reveal" style={{textAlign:'center'}}>09. Contact</p>
       <h2 className="reveal" style={{fontSize:'clamp(32px,5vw,56px)',fontWeight:900,lineHeight:1.1,marginBottom:16,textAlign:'center'}}>
         Let's Build Something<br /><span className="grad-text">Together</span>
@@ -71,10 +91,10 @@ export default function Contact() {
                 <div key={item.label} style={{display:'flex',alignItems:'center',gap:12}}>
                   <span style={{fontSize:18}}>{item.icon}</span>
                   {item.href
-                    ? <a href={item.href} style={{fontFamily:'Space Mono',fontSize:12,color:'var(--muted)',textDecoration:'none',transition:'color 0.2s'}}
-                        onMouseEnter={e=>e.target.style.color='var(--cyan)'}
-                        onMouseLeave={e=>e.target.style.color='var(--muted)'}>{item.label}</a>
-                    : <span style={{fontFamily:'Space Mono',fontSize:12,color:'var(--muted)'}}>{item.label}</span>
+                      ? <a href={item.href} style={{fontFamily:'Space Mono',fontSize:12,color:'var(--muted)',textDecoration:'none',transition:'color 0.2s'}}
+                           onMouseEnter={e=>e.currentTarget.style.color='var(--cyan)'}
+                           onMouseLeave={e=>e.currentTarget.style.color='var(--muted)'}>{item.label}</a>
+                      : <span style={{fontFamily:'Space Mono',fontSize:12,color:'var(--muted)'}}>{item.label}</span>
                   }
                 </div>
               ))}
