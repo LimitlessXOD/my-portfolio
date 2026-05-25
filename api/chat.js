@@ -1,5 +1,34 @@
 export const config = { runtime: 'edge' };
 
+// ─── Rate Limiter ────────────────────────────────────────────────────────────
+// In-memory store: { ip -> { count, windowStart } }
+// Edge functions share memory within a single instance, so this is best-effort
+// but stops casual abuse and runaway loops effectively.
+const RATE_LIMIT_REQUESTS = 20;   // max requests per window
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
+const MAX_MESSAGES = 20;           // max messages in a single conversation payload
+
+const ipStore = new Map();
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const record = ipStore.get(ip);
+
+  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW_MS) {
+    // New window
+    ipStore.set(ip, { count: 1, windowStart: now });
+    return false;
+  }
+
+  if (record.count >= RATE_LIMIT_REQUESTS) {
+    return true;
+  }
+
+  record.count += 1;
+  return false;
+}
+
+// ─── System Prompt ───────────────────────────────────────────────────────────
 const SYSTEM_PROMPT = `You are an AI assistant embedded in Erastus (Leroy) Shalimba's developer portfolio — MugenSoft. Answer questions from visitors about his work, skills, and services. Be concise, friendly, and honest. If something isn't covered below, say you don't have that info and suggest they contact Erastus directly.
 
 ## About
@@ -40,13 +69,66 @@ Exploring: AI Engineering (55%), Python (50%), PostgreSQL (45%), Desktop Apps (6
 - SaaS landing page templates pack (Ideation)
 - Open source React component library (Ideation)`;
 
+// ─── Handler ─────────────────────────────────────────────────────────────────
 export default async function handler(req) {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+  }
+
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const { messages } = await req.json();
+  // ── Rate limiting ──
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
 
+  if (isRateLimited(ip)) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again in an hour.' }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': '3600',
+        },
+      }
+    );
+  }
+
+  // ── Parse & validate body ──
+  let messages;
+  try {
+    const body = await req.json();
+    messages = body.messages;
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return new Response(JSON.stringify({ error: 'messages array is required.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Clamp conversation length — prevents context-stuffing attacks
+  const safeMessages = messages.slice(-MAX_MESSAGES);
+
+  // ── Call Anthropic ──
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -59,11 +141,10 @@ export default async function handler(req) {
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       stream: true,
-      messages,
+      messages: safeMessages,
     }),
   });
 
-  // If Anthropic returns an error, forward it so the client can show it
   if (!upstream.ok) {
     const errorText = await upstream.text();
     console.error('Anthropic error:', upstream.status, errorText);
