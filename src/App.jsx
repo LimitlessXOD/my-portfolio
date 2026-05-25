@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './components/ThemeProvider';
 import Loader from './components/Loader';
 import RouteFallback from './components/RouteFallback';
@@ -43,6 +44,8 @@ function AppContent() {
         </div>
       </Suspense>
       <AskMe />
+      {/* Vercel Analytics — fires on every route change automatically */}
+      <Analytics />
     </>
   );
 }
