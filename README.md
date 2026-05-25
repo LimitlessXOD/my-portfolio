@@ -173,10 +173,4 @@ Built in Windhoek, Namibia 🇳🇦
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
-  const navType = useNavigationType();
-  const isPop = navType === NavigationType.Pop;
-
-  useScrollRestoration();
-  usePageAnalytics();
-  useReveal(!loading, location.pathname, isPop);
+  // ...

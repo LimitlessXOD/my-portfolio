@@ -12,14 +12,23 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !message || !supabaseReady) return;
+    const cleanName = name.trim();
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanMessage = message.trim();
+
+    if (!cleanName || !cleanEmail || !cleanMessage || !supabaseReady) return;
+
+    if (cleanMessage.length > 2000) {
+      setStatus('error');
+      return;
+    }
 
     setStatus('sending');
 
     try {
       const { error } = await supabase
           .from('contact_messages')
-          .insert([{ name, email, message }]);
+          .insert([{ name: cleanName, email: cleanEmail, message: cleanMessage }]);
 
       if (error) {
         console.error(error);

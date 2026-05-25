@@ -17,9 +17,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase, supabaseReady } from '../supabaseClient';
 
 // ── simple client-side PIN ──────────────────────────────────────────────────
-// Change this to whatever you want. Not cryptographically secure — just keeps
-// casual visitors out. For real auth, use Supabase Auth or Vercel middleware.
-const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN || 'mugensoft2026';
+// Not cryptographically secure — just keeps casual visitors out.
+// For real auth, use Supabase Auth or Vercel middleware.
+const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN;
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 function pct(n, total) {
@@ -95,9 +95,15 @@ export default function AdminDashboard() {
 
   // ── auth ───────────────────────────────────────────────────────────────────
   const handleLogin = () => {
+    if (!ADMIN_PIN) {
+      setError('VITE_ADMIN_PIN is not set in your .env file. Add it and restart the dev server.');
+      return;
+    }
+
     if (pin === ADMIN_PIN) {
       sessionStorage.setItem('admin-authed', '1');
       setAuthed(true);
+      setPin('');
     } else {
       setPinError(true);
       setTimeout(() => setPinError(false), 1500);
@@ -107,30 +113,39 @@ export default function AdminDashboard() {
   // ── fetch ──────────────────────────────────────────────────────────────────
   const fetchEvents = useCallback(async () => {
     if (!supabaseReady) return;
+
     setLoading(true);
     setError(null);
-    try {
-      const since = new Date();
-      since.setDate(since.getDate() - range);
 
-      const { data, error: err } = await supabase
+    const since = new Date();
+    since.setDate(since.getDate() - range);
+
+    const { data, error: fetchError } = await supabase
         .from('analytics_events')
         .select('*')
         .gte('created_at', since.toISOString())
         .order('created_at', { ascending: false })
         .limit(2000);
 
-      if (err) throw err;
-      setEvents(data || []);
-    } catch (e) {
-      setError(e.message);
-    } finally {
+    if (fetchError) {
+      setError(fetchError.message);
+      setEvents([]);
       setLoading(false);
+      return;
     }
+
+    setEvents(data || []);
+    setLoading(false);
   }, [range]);
 
   useEffect(() => {
-    if (authed) fetchEvents();
+    if (!authed) return;
+
+    const timer = window.setTimeout(() => {
+      fetchEvents();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [authed, fetchEvents]);
 
   // ── derived stats ──────────────────────────────────────────────────────────
@@ -154,13 +169,19 @@ export default function AdminDashboard() {
 
   // Top referrers
   const refCounts = events
-    .filter(e => e.referrer)
-    .reduce((acc, e) => {
-      let ref = e.referrer;
-      try { ref = new URL(e.referrer).hostname; } catch {}
-      acc[ref] = (acc[ref] || 0) + 1;
-      return acc;
-    }, {});
+      .filter(e => e.referrer)
+      .reduce((acc, e) => {
+        let ref = e.referrer;
+
+        try {
+          ref = new URL(e.referrer).hostname;
+        } catch {
+          ref = e.referrer || 'unknown';
+        }
+
+        acc[ref] = (acc[ref] || 0) + 1;
+        return acc;
+      }, {});
   const topRefs = Object.entries(refCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6);

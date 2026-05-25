@@ -15,6 +15,7 @@ const ProjectPage = lazy(() => import('./pages/ProjectPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const ChessLanding = lazy(() => import('./pages/ChessLanding'));
 const MugenLanding = lazy(() => import('./pages/MugenLanding'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function AppContent() {
@@ -39,8 +40,10 @@ function AppContent() {
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/products/chess" element={<ChessLanding />} />
             <Route path="/products/mugen" element={<MugenLanding />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+
         </div>
       </Suspense>
       <AskMe />
