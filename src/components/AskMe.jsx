@@ -157,82 +157,120 @@ export default function AskMe() {
           0%, 100% { box-shadow: 0 0 6px rgba(0,229,204,0.6);  }
           50%       { box-shadow: 0 0 14px rgba(0,229,204,1);   }
         }
+        @keyframes fabPulse {
+          0%   { transform: scale(1);    }
+          50%  { transform: scale(1.06); }
+          100% { transform: scale(1);    }
+        }
+        @keyframes labelFade {
+          from { opacity: 0; transform: translateX(6px); }
+          to   { opacity: 1; transform: translateX(0);   }
+        }
       `}</style>
 
-      {/* ── Floating FAB ── */}
+      {/* ── Floating FAB — pill shape with icon + label ── */}
       <div
         style={{
           position: 'fixed',
           bottom: 28,
           right: 28,
           zIndex: 200,
-          width: 58,
-          height: 58,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0,
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Spinning gradient ring */}
-        <div style={{
-          position: 'absolute',
-          inset: -4,
-          borderRadius: '50%',
-          background: 'conic-gradient(from 0deg, #00e5cc, #818cf8, #a855f7, #00e5cc)',
-          animation: 'ringRotate 3s linear infinite',
-          opacity: hovered || open ? 1 : 0.55,
-          transition: 'opacity 0.3s',
-        }} />
-        {/* Inner mask to make it look like a ring */}
-        <div style={{
-          position: 'absolute',
-          inset: 2,
-          borderRadius: '50%',
-          background: 'var(--bg, #080c12)',
-          zIndex: 1,
-        }} />
-
-        {/* Outer orbit pulse (only when closed + hovered) */}
+        {/* Hover label — shown to the left of the button */}
         {!open && hovered && (
           <div style={{
-            position: 'absolute',
-            inset: -10,
-            borderRadius: '50%',
-            border: '1px solid rgba(0,229,204,0.35)',
-            animation: 'orbitPulse 1.2s ease-in-out infinite',
-            zIndex: 0,
-          }} />
+            marginRight: 10,
+            background: 'rgba(8,12,20,0.92)',
+            border: '1px solid rgba(0,229,204,0.3)',
+            borderRadius: 8,
+            padding: '6px 12px',
+            fontSize: 12,
+            fontFamily: 'Space Mono, monospace',
+            color: '#00e5cc',
+            letterSpacing: '0.06em',
+            whiteSpace: 'nowrap',
+            backdropFilter: 'blur(8px)',
+            animation: 'labelFade 0.18s ease both',
+            boxShadow: '0 0 12px rgba(0,229,204,0.15)',
+          }}>
+            ✨ Ask AI
+          </div>
         )}
 
-        {/* Button face */}
-        <button
-          onClick={() => setOpen(o => !o)}
-          aria-label="Ask AI about this portfolio"
-          style={{
+        {/* FAB button */}
+        <div style={{ position: 'relative', width: 84, height: 84 }}>
+          {/* Spinning gradient ring */}
+          <div style={{
             position: 'absolute',
-            inset: 2,
-            zIndex: 2,
+            inset: -4,
             borderRadius: '50%',
-            background: open
-              ? 'linear-gradient(135deg, #0d1420 0%, #111b2e 100%)'
-              : 'linear-gradient(135deg, #0d1420 0%, #0f1d30 100%)',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: hovered ? 'scale(1.06)' : 'scale(1)',
-            transition: 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1)',
-          }}
-        >
-          {open ? <CloseIcon /> : <MugenMark size={28} animated />}
-        </button>
+            background: 'conic-gradient(from 0deg, #00e5cc, #818cf8, #a855f7, #00e5cc)',
+            animation: 'ringRotate 3s linear infinite',
+            opacity: hovered || open ? 1 : 0.7,
+            transition: 'opacity 0.3s',
+          }} />
+          {/* Inner mask */}
+          <div style={{
+            position: 'absolute',
+            inset: 3,
+            borderRadius: '50%',
+            background: 'var(--bg, #080c12)',
+            zIndex: 1,
+          }} />
+
+          {/* Outer orbit pulse on hover */}
+          {!open && hovered && (
+            <div style={{
+              position: 'absolute',
+              inset: -12,
+              borderRadius: '50%',
+              border: '1px solid rgba(0,229,204,0.35)',
+              animation: 'orbitPulse 1.2s ease-in-out infinite',
+              zIndex: 0,
+            }} />
+          )}
+
+          {/* Button face */}
+          <button
+            onClick={() => setOpen(o => !o)}
+            aria-label="Ask AI about this portfolio"
+            style={{
+              position: 'absolute',
+              inset: 3,
+              zIndex: 2,
+              borderRadius: '50%',
+              background: open
+                ? 'linear-gradient(135deg, #0d1420 0%, #111b2e 100%)'
+                : 'linear-gradient(135deg, #0d1420 0%, #0f1d30 100%)',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: !open && !hovered ? 'fabPulse 2.5s ease-in-out infinite' : 'none',
+              transform: hovered ? 'scale(1.07)' : 'scale(1)',
+              transition: 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1)',
+              boxShadow: hovered || open
+                ? '0 0 20px rgba(0,255,200,0.35), 0 0 40px rgba(0,255,200,0.15)'
+                : '0 0 14px rgba(0,255,200,0.22), 0 0 28px rgba(0,255,200,0.08)',
+            }}
+          >
+            {open ? <CloseIcon /> : <MugenMark size={36} animated />}
+          </button>
+        </div>
       </div>
 
       {/* ── Chat window ── */}
       {open && (
         <div style={{
           position: 'fixed',
-          bottom: 100,
+          bottom: 124,
           right: 28,
           zIndex: 200,
           width: 'min(380px, calc(100vw - 40px))',
