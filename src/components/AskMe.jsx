@@ -94,8 +94,15 @@ export default function AskMe() {
       });
 
       if (!res.ok) {
-        const errText = await res.text();
-        setMessages(prev => [...prev, { role: 'assistant', content: `Error ${res.status}: ${errText}` }]);
+        let friendlyError;
+        if (res.status === 429) {
+          friendlyError = "You've sent a lot of messages — I'm taking a short break! Try again in an hour, or contact Erastus directly at erastussane618@gmail.com.";
+        } else if (res.status === 400) {
+          friendlyError = "Something went wrong with that message. Try rephrasing it.";
+        } else {
+          friendlyError = `Something went wrong (${res.status}). Please try again or contact Erastus directly.`;
+        }
+        setMessages(prev => [...prev, { role: 'assistant', content: friendlyError }]);
         setLoading(false);
         return;
       }
